@@ -6,6 +6,10 @@ app.get('/OK', function(req,res){
   res.send('hello world');
 })
 
+app.get('/post', function(req,res) {
+  res.send()
+})
+
 app.post('/post', function(req,res) {
   res.send('Post request');
 })
