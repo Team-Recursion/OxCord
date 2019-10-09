@@ -17,7 +17,7 @@ app.get('/OK', function(req,res){
 app.post('/post', function(req,res) {
   var q = req.body.user;
   var a = req.body.password;
-  console.log('User name = ' + q + " , password is " + a);
+  console.log('User name = ' + q + " , password = " + a);
   res.end('yes');
 });
 
