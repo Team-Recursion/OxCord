@@ -10,7 +10,7 @@ app.get('/', function(req,res) {
   res.sendFile('html/index.html', {root: __dirname});
 });
 
-app.get('/OK', function(req,res){
+app.get('/', function(req,res){
   res.send('hello world');
 });
 
