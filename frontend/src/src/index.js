@@ -4,6 +4,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const myFirstElement = (
+  <div>
+    <h1>Auxtail</h1>
+      <ul>
+        <li>Jason Yeh</li>
+        <li>Jesse Alcocer</li>
+        <li>Peter Trinh</li>
+        <li>Joseph Tuazon</li>
+      </ul>
+  </div>
+);
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
