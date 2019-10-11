@@ -7,10 +7,10 @@ function App() {
     <div>
       <h1>Auxtail</h1>
         <ul>
-          <li>Jason Yeh</li>
-          <li>Jesse Alcocer</li>
-          <li>Peter Trinh</li>
-          <li>Joseph Tuazon</li>
+          <li>Jason Yeh.</li>
+          <li>Jesse Alcocer.</li>
+          <li>Peter Trinh.</li>
+          <li>Joseph Tuazon.</li>
         </ul>
     </div>
   );
