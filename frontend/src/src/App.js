@@ -1,18 +1,17 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './script.js';
 
 function App() {
   return (
-    <div>
-      <h1>Auxtail</h1>
-        <ul>
-          <li>Jason Yeh.</li>
-          <li>Jesse Alcocer.</li>
-          <li>Peter Trinh.</li>
-          <li>Joseph Tuazon.</li>
-        </ul>
-    </div>
+    <header>
+        <h1>Spotify Web Playback SDK Quick Start Tutorial</h1>
+        <h2>Open your console log: <code>View > Developer > JavaScript Console</code></h2>
+
+        <script src="https://sdk.scdn.co/spotify-player.js"></script>
+        <script src="/script"></script>
+    </header>
   );
 }
 

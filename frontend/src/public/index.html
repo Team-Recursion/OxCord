@@ -10,7 +10,7 @@
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
   <script>
     window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = 'BQDCExSCpUJo1FP0-WFpDdNmnu6P-yJY2ZmBQ-4m_W_ETHH7RMhkoTy-1pj1KytFskdTk0uq-hjPvRAb-VuGcaig9o-mAJUzgldEo_W4wd8p4-mnGt9yR2L3xlEPpH6EMv77Ma93kjhLttRfrc7VIyKqQOQs';
+      const token = 'BQDHoYvd0llwd9nzFSaI_y9lKkOCHQzxCy9sqSOW8fUsEIXL_VsTLMpHo4QBeqHrl_9f8NzHhv2w1_V7GvARHKhsxCIRa_G1bTW8LbQTDgm3L2wUPealtqWa0Dmenblfu-KSyyKUMdXrpK05lKLJwoTAGBzM';
       const player = new Spotify.Player({
         name: 'Web Playback SDK Quick Start Player',
         getOAuthToken: cb => { cb(token); }
@@ -40,31 +40,4 @@
     };
   </script>
 </body>
-</html> -->
-<!-- <html>
-  <head>
-    <title>Simple login</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
-    <script>
-      $(document).ready(function(){
-        var user,pass;
-        $("#submit").click(function(){
-          user=$("#user").val();
-          pass=$("#password").val();
-          $.post("http://localhost:8080/post",{user: user,password: pass}, function(data){
-            if(data==='done')
-              {
-                alert("login success");
-              }
-          });
-        });
-      });
-    </script>
-  </head>
-  <body>
-    <h1>Hello people !</h1>
-    <input type="TEXT" id="user" size="40"><br>
-    <input type="password" id="password" size="40"><br>
-    <input type="button" id="submit" value="Submit">
-  </body>
 </html>
