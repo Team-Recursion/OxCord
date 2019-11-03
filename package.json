@@ -16,8 +16,11 @@
     "express": "^4.17.1",
     "node": "^12.11.0",
     "node-spotify-api": "^1.1.1",
+    "react-player": "^1.13.0",
     "request": "^2.88.0",
-    "spotify-web-api-node": "^4.0.0"
+    "spotify-web-api-node": "^4.0.0",
+    "youtube-audio-stream": "^0.3.2",
+    "youtube-music-player": "^0.2.1"
   },
   "devDependencies": {}
 }

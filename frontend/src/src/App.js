@@ -1,18 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import ReactPlayer from 'react-player';
+//import logo from './logo.svg';
 import './App.css';
 import './script.js';
 
-function App() {
-  return (
-    <header>
-        <h1>Spotify Web Playback SDK Quick Start Tutorial</h1>
-        <h2>Open your console log: <code>View > Developer > JavaScript Console</code></h2>
+class App extends Component {
 
-        <script src="https://sdk.scdn.co/spotify-player.js"></script>
-        <script src="/script"></script>
-    </header>
-  );
+  constructor(props) {
+    super(props);
+    this.state = { apiResponse: "" };
+  }
+
+  callAPI() {
+    fetch("http://localhost:8888/testAPI")
+          .then(res => res.text())
+          .then(res => this.setState({apiResponse: res}))
+          .catch(console.log);
+  }
+
+  componentDidMount() {
+    this.callAPI();
+  }
+
+  render() {
+    return (
+      <div className = "App">
+          <header className = "App-header">
+              <h1 className ="App-title">Welcome to OxCord</h1>
+              <ReactPlayer url="https://www.youtube.com/watch?v=YEJBmmqXUQs" playing />
+          </header>
+          <p className = "App-intro">{this.state.apiResponse}</p>
+      </div>
+    )
+  }
 }
+
+
 
 export default App;
