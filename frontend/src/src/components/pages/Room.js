@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 export class Room extends Component {
     render() {
         return (
+            <div>
             <form style={{display: 'flex'}}>
                 <input
                     type="text"
@@ -17,6 +18,7 @@ export class Room extends Component {
                     style={buttonStyle}
                 />
             </form>
+            </div>
         )
     }
 }
