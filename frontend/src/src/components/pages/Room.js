@@ -1,35 +1,34 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Songs from '../Songs';
+import SearchBar from '../SearchBar'
 
 export class Room extends Component {
+    state = {
+        songs: [
+            {
+                id: 1,
+                title: 'song 1'
+            },
+            {
+                id: 2,
+                title: 'song 2'
+            },
+            {
+                id: 3,
+                title: 'song 3'
+            }
+        ]
+    }
+
     render() {
         return (
             <div>
-            <form style={{display: 'flex'}}>
-                <input
-                    type="text"
-                    name="title"
-                    style={{ flex: '10', padding: '5px' }}
-                    placeholder="Enter Song Request"
-                />
-                <input
-                    type="submit"
-                    name="title"
-                    placeholder="Search"
-                    style={buttonStyle}
-                />
-            </form>
+                <SearchBar />
+                <Songs songs={this.state.songs}/>
             </div>
         )
     }
 }
 
-const buttonStyle = {
-    display: 'inline-block',
-    borderColor: '#555',
-    background: '#555',
-    color: '#fff',
-    paadding: '7px 20px',
-    cursor: 'pointer'
-}
 
 export default Room

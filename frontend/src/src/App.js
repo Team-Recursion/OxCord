@@ -5,7 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 import CreateRoom from './components/CreateRoom';
 import JoinRoom from './components/JoinRoom';
-import Room from './components/pages/Room'
+import Room from './components/pages/Room';
 
 function App() {
   return (
