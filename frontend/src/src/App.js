@@ -15,7 +15,7 @@ class App extends Component {
       playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 1,
         enablejsapi: 1,
-        playlist: "qpbooQFvXZs, epHZWUEsU5o",
+        // playlist: "qpbooQFvXZs, epHZWUEsU5o",
         autohide:1
       }
     };
@@ -32,6 +32,9 @@ class App extends Component {
           videoId="M7lc1UVf-VE"
           opts={opts}
           onReady={this._onReady}
+          onStateChange={this.onStateChange}
+          onEnd={this.onEnd}
+          
         />
         <p className = "App-intro">{this.state.apiResponse}</p>
         <form onSubmit={this.handleSubmit}>
@@ -61,11 +64,12 @@ class App extends Component {
     };
     this.setState({value:''});
     axios.post('http://localhost:8888/searchController/search', query)
-      .then(() => console.log('Request sent'))
+      .then((data) => console.log(data.data))
       .catch(err => {
         console.error(err);
       })
     event.preventDefault();
+    //player.cueVideoById("https://www.youtube.com/watch?v=YEJBmmqXUQs");
   }
   
   handleChange(event) {
@@ -85,7 +89,18 @@ class App extends Component {
 
   _onReady(event) {
     // access to player in all event handlers via event.target
-    event.target.pauseVideo();
+    event.target.playVideo();
+    const player = event.target;
+  }
+
+  onEnd(event) {
+    const player = event.target;
+    player.cueVideoById("_nBlN9yp9R8");
+    player.playVideo();
+  }
+
+  onStateChange(event) {
+    const player = event.target;
   }
 
   // render() {
