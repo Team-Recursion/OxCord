@@ -1,19 +1,27 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 
 export class JoinRoom extends Component {
     render() {
         return (
-            <form>
-                <input
-                  type="submit"
-                  value="Join Room"
-                  className="joinBtn"
-                  style={buttonStyle}
-                />
-            </form>
+            <div>
+                <Button />
+            </div>
         )
     }
 }
+const Button = () => (
+    <Route render={({ history}) => (
+      <button
+        type='button'
+        style={buttonStyle}
+        onClick={() => { history.push('/room') }}
+      >
+        JoinRoom
+      </button>
+    )} />
+  )
+
 const buttonStyle = {
     display: 'inline-block',
     borderColor: '#555',

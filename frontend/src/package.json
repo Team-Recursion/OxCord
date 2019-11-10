@@ -7,8 +7,12 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-router-dom": "^5.1.2",
+<<<<<<< HEAD
     "react-router": "^5.1.2",
+=======
+>>>>>>> 7ca0b1159dc0c843100955c9f5b4901f626d0db3
     "react-scripts": "3.2.0",
+    "react-router": "^5.1.2",
     "react-youtube": "^7.9.0",
     "youtube-player": "^5.5.2"
   },

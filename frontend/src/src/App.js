@@ -1,4 +1,6 @@
 
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import React, {Component} from 'react';
 import ReactPlayer from 'react-player';
 import YouTube from 'react-youtube';
@@ -9,7 +11,7 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import CreateRoom from './components/CreateRoom';
 import JoinRoom from './components/JoinRoom';
-import Room from './components/pages/Room'
+import Room from './components/pages/Room';
 
 function App() {
   return (
@@ -18,13 +20,7 @@ function App() {
         <Route exact path="/" render={props => (
           <React.Fragment>
             <h1>Auxtail</h1>
-            <p1>etc etc etc taliking about the team and project</p1>
-            {/* <ul>
-              <li>Jason Yeh</li>
-              <li>Jesse Alcocer</li>
-              <li>Peter Trinh</li>
-              <li>Joseph Tuazon</li>
-            </ul> */}
+            <p1>etc etc etc talking about the team and project</p1>
             <CreateRoom/>
             <JoinRoom/>
           </React.Fragment>
@@ -60,9 +56,9 @@ function App() {
 //         <YouTube
 //           videoId="M7lc1UVf-VE"
 //           opts={opts}
-//           onReady={this._onReady}
-//           onStateChange={this.onStateChange}
-//           onEnd={this.onEnd}
+//           onReady={this._onReady.bind(this)}
+//           onStateChange={this.onStateChange.bind(this)}
+//           onEnd={this.onEnd.bind(this)}
           
 //         />
 //         <p className = "App-intro">{this.state.apiResponse}</p>
@@ -79,7 +75,13 @@ function App() {
 
 //   constructor(props) {
 //     super(props);
-//     this.state = { value: "" };
+//     this.state = { 
+//       value: "",
+//       songs: [
+        
+//       ],
+//       id: "_nBlN9yp9R8"
+//    };
 
 //     this.handleChange = this.handleChange.bind(this);
 //     this.handleSubmit = this.handleSubmit.bind(this);
@@ -93,7 +95,11 @@ function App() {
 //     };
 //     this.setState({value:''});
 //     axios.post('http://localhost:8888/searchController/search', query)
-//       .then((data) => console.log(data.data))
+//       .then((data) => {
+//         console.log(data);
+        
+//         this.setState({id: data.data})
+//       })
 //       .catch(err => {
 //         console.error(err);
 //       })
@@ -118,32 +124,33 @@ function App() {
 
 //   _onReady(event) {
 //     // access to player in all event handlers via event.target
+//     console.log('onready', this.state.id);
+    
 //     event.target.playVideo();
 //     const player = event.target;
 //   }
 
 //   onEnd(event) {
 //     const player = event.target;
-//     player.cueVideoById("_nBlN9yp9R8");
+//     console.log('onend', this.state.id);
+//     player.cueVideoById(this.state.id);
 //     player.playVideo();
 //   }
 
 //   onStateChange(event) {
 //     const player = event.target;
 //   }
-
-//   // render() {
-//   //   return (
-//   //     <div className = "App">
-//   //         <header className = "App-header">
-//   //             <h1 className ="App-title">Welcome to OxCord</h1>
-//   //             <ReactPlayer url="https://www.youtube.com/watch?v=YEJBmmqXUQs" playing />
-//   //         </header>
-//   //         <p className = "App-intro">{this.state.apiResponse}</p>
-//   //     </div>
-//   //   )
-//   // }
-
+  // render() {
+  //   return (
+  //     <div className = "App">
+  //         <header className = "App-header">
+  //             <h1 className ="App-title">Welcome to OxCord</h1>
+  //             <ReactPlayer url="https://www.youtube.com/watch?v=YEJBmmqXUQs" playing />
+  //         </header>
+  //         <p className = "App-intro">{this.state.apiResponse}</p>
+  //     </div>
+  //   )
+  // }
 }
 
 
