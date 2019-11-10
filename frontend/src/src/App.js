@@ -1,7 +1,7 @@
-// import React from 'react';
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
+//import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-// import logo from './logo.svg';
+//import logo from './logo.svg';
 
 import React, {Component} from 'react';
 import ReactPlayer from 'react-player';
@@ -62,9 +62,9 @@ class App extends Component {
         <YouTube
           videoId="M7lc1UVf-VE"
           opts={opts}
-          onReady={this._onReady}
-          onStateChange={this.onStateChange}
-          onEnd={this.onEnd}
+          onReady={this._onReady.bind(this)}
+          onStateChange={this.onStateChange.bind(this)}
+          onEnd={this.onEnd.bind(this)}
           
         />
         <p className = "App-intro">{this.state.apiResponse}</p>
@@ -81,7 +81,10 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { 
+      value: "",
+      id: "_nBlN9yp9R8"
+   };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -95,7 +98,11 @@ class App extends Component {
     };
     this.setState({value:''});
     axios.post('http://localhost:8888/searchController/search', query)
-      .then((data) => console.log(data.data))
+      .then((data) => {
+        console.log(data);
+        
+        this.setState({id: data.data})
+      })
       .catch(err => {
         console.error(err);
       })
@@ -120,13 +127,16 @@ class App extends Component {
 
   _onReady(event) {
     // access to player in all event handlers via event.target
+    console.log('onready', this.state.id);
+    
     event.target.playVideo();
     const player = event.target;
   }
 
   onEnd(event) {
     const player = event.target;
-    player.cueVideoById("_nBlN9yp9R8");
+    console.log('onend', this.state.id);
+    player.cueVideoById(this.state.id);
     player.playVideo();
   }
 
