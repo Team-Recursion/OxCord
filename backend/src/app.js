@@ -1,26 +1,19 @@
-var http = require('http');
-var express = require('express');
-var app = express();
+var express = require('express'); // Express web server framework
 var bodyParser = require('body-parser');
+var testAPIRouter = require("./controllers/testAPI");
+var searchControllerRouter = require("./controllers/searchController");
+var cors = require("cors");
 
-app.use(bodyParser.urlencoded({ extended: false}));
-app.use(bodyParser.json());
+var app = express();
+app.use(cors());
+// parse application/x-www-asdform-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
-app.get('/', function(req,res) {
-  res.sendFile('html/index.html', {root: __dirname});
-});
+// parse application/json
+app.use(bodyParser.json())
 
-app.get('/', function(req,res){
-  res.send('hello world');
-});
+app.use("/testAPI", testAPIRouter);
+app.use("/searchController", searchControllerRouter);
 
-app.post('/post', function(req,res) {
-  var q = req.body.user;
-  var a = req.body.password;
-  console.log('User name = ' + q + " , password = " + a);
-  res.end('yes');
-});
-
-app.listen(8080, function() {
-  console.log('Server running on local instance. Port: 8080');
-});
+console.log('Listening on 8888');
+app.listen(8888);
