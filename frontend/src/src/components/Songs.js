@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export class Songs extends Component {
     render() {
         return this.props.songs.map((song) => (
-            <SongItem key={song.id} song={song}/>
+            <SongItem song={song.videoId}/>
         ));
     }
 }

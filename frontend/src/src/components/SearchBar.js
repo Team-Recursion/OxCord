@@ -1,35 +1,55 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 
 export class SearchBar extends Component {
     state = {
-        title: ''
+        searchQuery: ''
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.props.addSong(this.state.title);
-        this.setState({ title: ''})
+    handleChange = (event) => {
+        this.setState({searchQuery: event.target.value});
     }
 
-    onChange = (e) => this.setState({title: e.target.value})
+    handleSubmit = (event) => {
+      //alert('A name was submitted: ' + this.state.value);
+      console.log('currently submitted query', this.state.searchQuery)
+      var string = this.state.searchQuery;
+      
+      const query = {
+        "value":string
+      };
+
+      axios.post('http://localhost:8888/searchController/search', query)
+        .then((data) => {
+          console.log(data);
+          this.props.addSong(data.data)
+          this.setState({searchQuery: ''})
+        })
+        .catch(err => {
+          console.error(err);
+        })
+      event.preventDefault();
+      //player.cueVideoById("https://www.youtube.com/watch?v=YEJBmmqXUQs");
+    }
 
     render() {
         return (
             <div>
-                <form onSubmit={this.onSubmit} style={{display: 'flex'}}>
+                <form onSubmit={this.handleSubmit} style={{display: 'flex'}}>
                     <input
                         type="text"
-                        name="title"
+                        name="textBox"
                         style={{ flex: '10', padding: '5px' }}
                         placeholder="Enter Song Request"
-                        value={this.state.title}
-                        onChange={this.onChange}
+                        value={this.state.searchQuery}
+                        onChange={this.handleChange}
                     />
                     <input
                         type="submit"
                         name="title"
                         placeholder="Search"
                         style={buttonStyle}
+
                     />
                 </form>
             </div>

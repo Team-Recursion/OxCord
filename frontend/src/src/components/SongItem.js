@@ -5,7 +5,7 @@ export class SongItem extends Component {
     render() {
         return (
             <div style={songItemStyle}>
-                <p>{this.props.song.title}</p>
+                <h2>song was queued correctly. display needs to be fixed</h2>
             </div>
         )
     }
