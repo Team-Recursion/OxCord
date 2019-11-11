@@ -20,6 +20,8 @@
     "node-spotify-api": "^1.1.1",
     "react-player": "^1.13.0",
     "request": "^2.88.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "spotify-web-api-node": "^4.0.0",
     "youtube-audio-stream": "^0.3.2",
     "youtube-music-player": "^0.2.1"
