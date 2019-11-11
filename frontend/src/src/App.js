@@ -30,7 +30,7 @@ function App() {
       <div>
         <Route exact path="/" render={props => (
           <div className="App">
-            <Particles
+            <Particles className="particles"
               params={particleOpt}
             />
             <header className="App-header">

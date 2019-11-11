@@ -1,5 +1,6 @@
 .App {
-  height: 100%;
+  max-height: 721px;
+  height: 721px;
   text-align: center;
   background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(28,9,121,0.9203413940256046) 30%, rgba(0,212,255,1) 100%);
 }
@@ -34,4 +35,10 @@
   /* background: rgba(191,180,185,0.4); */
   text-shadow: 0px 0px 2px #131415;
 	font-family: 'Open Sans', sans-serif;
+}
+
+.particles {
+  position: fixed;
+  height: 100%;
+  width: 100%;
 }
