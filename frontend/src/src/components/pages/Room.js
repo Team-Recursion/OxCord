@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Songs from '../Songs';
 import SearchBar from '../SearchBar'
 import YouTube from 'react-youtube';
+import io from 'socket.io-client';
 import axios from 'axios';
 export class Room extends Component {
     state = {
@@ -94,7 +95,21 @@ export class Room extends Component {
     }
 
     componentDidMount() {
-      this.callAPI();
+      this.socket = io('/');
+      this.generatePin();
+      this.socket.on('room-joined', data => {
+        //add user to room
+      })
+
+      this.socket.on('add-song', data => {
+        //pass song to backend
+      })
+    }
+
+    generatePin() {
+      let newPin = Math.floor(Math.random() * 9000, 10000)
+      this.setState({ pin: newPin })
+      this.socket.emit('host-join', { pin: newPin });
     }
 
     _onReady(event) {

@@ -14,6 +14,7 @@ app.use(bodyParser.json())
 
 app.use("/testAPI", testAPIRouter);
 app.use("/searchController", searchControllerRouter);
+app.ues("/socketController", socketController);
 
 console.log('Listening on 8888');
 app.listen(8888);
