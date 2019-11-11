@@ -1,33 +1,62 @@
-
-
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import React, {Component} from 'react';
 import ReactPlayer from 'react-player';
 import YouTube from 'react-youtube';
 import axios from 'axios';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
-//import logo from './logo.svg';
+import Particles from 'react-particles-js';
+import logo from './randomLogo.png';
 
 import './App.css';
 import CreateRoom from './components/CreateRoom';
 import JoinRoom from './components/JoinRoom';
 import Room from './components/pages/Room';
 
+const particleOpt = {
+  particles:{
+    number:{
+      value: 150,
+      density: {
+        enable: true,
+        value_area: 800
+      }
+    }
+  }
+  
+}
+
 function App() {
   return (
     <Router>
       <div>
         <Route exact path="/" render={props => (
-          <React.Fragment>
-            <h1>Auxtail</h1>
-            <p1>etc etc etc talking about the team and project</p1>
-            <CreateRoom/>
-            <JoinRoom/>
-          </React.Fragment>
+          <div className="App">
+            <Particles
+              params={particleOpt}
+            />
+            <header className="App-header">
+              <div class ="text">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>
+                  Welcome to OxCord, the world's first Video Player Sharer!
+                </p>
+                <a
+                  className="App-link"
+                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                </a>
+                <h1>Join the Party!</h1>
+                <CreateRoom/>
+                <JoinRoom/>
+              </div>
+              </header>
+          </div>
         )} />
         <Route path="/room" component={Room} />
       </div>
     </Router>
+    
   );
 
 // class App extends Component {
