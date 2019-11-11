@@ -74,10 +74,13 @@ export class Room extends Component {
     //   this.setState({value: event.target.value});
     // }
 
-    addSong = (videoId) => {
-      console.log('adding new song of ID', videoId);
+    addSong = (song) => {
+      console.log('adding new song', song);
       const newSong = {
-        videoId: videoId
+        videoId: song.videoId,
+        title: song.title,
+        description: song.description,
+        thumbnail: song.thumbnail
       }
       this.setState({ songs: [...this.state.songs, newSong] });
     }
