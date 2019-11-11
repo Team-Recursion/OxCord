@@ -11,7 +11,7 @@ export class Room extends Component {
     }
     render() {
       const opts = {
-        height: '500',
+        height: '600',
         width: '600',
         playerVars: { // https://developers.google.com/youtube/player_parameters
           autoplay: 1,
@@ -25,7 +25,7 @@ export class Room extends Component {
             <SearchBar addSong={this.addSong}/>
             <Songs songs={this.state.songs}/>
             <YouTube
-              videoId="M7lc1UVf-VE"
+              videoId="is38pqgbj6A"
               opts={opts}
               onReady={this._onReady.bind(this)}
               onStateChange={this.onStateChange.bind(this)}
