@@ -5,7 +5,13 @@ export class SongItem extends Component {
     render() {
         return (
             <div style={songItemStyle}>
-                <h2>song was queued correctly. display needs to be fixed</h2>
+                <p1>
+                    <img 
+                        src={this.props.songThumbnail} 
+                        alt= {this.props.songTitle}
+                    />
+                {this.props.songTitle}
+                {this.props.songDescription}</p1>
             </div>
         )
     }

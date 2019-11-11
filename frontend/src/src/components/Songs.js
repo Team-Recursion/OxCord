@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 export class Songs extends Component {
     render() {
         return this.props.songs.map((song) => (
-            <SongItem song={song.videoId}/>
+            <SongItem 
+                songId={song.videoId}
+                songTitle={song.title}
+                songDescription={song.description}
+                songThumbnail={song.thumbnail}/>
         ));
     }
 }
