@@ -6,7 +6,7 @@ import YouTube from 'react-youtube';
 import io from 'socket.io-client';
 import axios from 'axios';
 
-const socket = io('http://localhost:8888/communication')
+var socket = null;
 
 export class Room extends Component {
     state = {
@@ -101,7 +101,7 @@ export class Room extends Component {
     }
 
     componentDidMount() {
-      
+      socket = io('http://localhost:8888/communication')
       this.generatePin();
       //socket.emit('host-join-up');
       //Adding socket event handlers
@@ -113,6 +113,10 @@ export class Room extends Component {
       socket.on('add-song-down', data => {
         //Add song to state array
       });
+
+      socket.on('test', data => {
+        alert("test");
+      })
     }
 
     generatePin() {

@@ -15,7 +15,7 @@ const Button = () => (
       <button
         type='button'
         style={buttonStyle}
-        onClick={() => { history.push('/room') }}
+        onClick={() => { history.push('/JoinPage') }}
       >
         JoinRoom
       </button>
