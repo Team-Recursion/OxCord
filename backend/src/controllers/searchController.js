@@ -22,8 +22,20 @@ router.post('/search', function(req,res,next) {
           console.error('Error: ' + err);
         }
         if (data) {
-          console.log(data.data.items[0].id.videoId)
-          res.send(data.data.items[0].id.videoId);
+          // console.log(data.data.items[0].id.videoId);
+          // console.log(data.data.items[0].snippet.title);
+          // console.log(data.data.items[0].snippet.description);
+          console.log(data.data.items[0]);
+          
+          console.log(data.data.items[0].snippet.thumbnails.default.url);
+          
+          // res.send(data.data.items[0].id.videoId);
+          res.json({ 
+            videoId: data.data.items[0].id.videoId,
+            title: data.data.items[0].snippet.title,
+            description: data.data.items[0].snippet.description,
+            thumbnail: data.data.items[0].snippet.thumbnails.default.url
+          })
         }
       });
 });

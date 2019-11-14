@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 import Songs from '../Songs';
 import SearchBar from '../SearchBar'
 import YouTube from 'react-youtube';
+import io from 'socket.io-client';
 import axios from 'axios';
+
+const socket = io('http://localhost:8888/communication')
+
 export class Room extends Component {
     state = {
         songs: [
@@ -74,10 +78,13 @@ export class Room extends Component {
     //   this.setState({value: event.target.value});
     // }
 
-    addSong = (videoId) => {
-      console.log('adding new song of ID', videoId);
+    addSong = (song) => {
+      console.log('adding new song', song);
       const newSong = {
-        videoId: videoId
+        videoId: song.videoId,
+        title: song.title,
+        description: song.description,
+        thumbnail: song.thumbnail
       }
       this.setState({ songs: [...this.state.songs, newSong] });
     }
@@ -94,7 +101,24 @@ export class Room extends Component {
     }
 
     componentDidMount() {
-      this.callAPI();
+      
+      this.generatePin();
+      //socket.emit('host-join-up');
+      //Adding socket event handlers
+      socket.on('user-join-down', data => {
+        //Add 1 to a count of users currently in room
+        //Possibly update db value
+      });
+
+      socket.on('add-song-down', data => {
+        //Add song to state array
+      });
+    }
+
+    generatePin() {
+      let newPin = Math.floor(Math.random() * 9000, 10000)
+      this.setState({ pin: newPin })
+      socket.emit('host-join-up', { pin: newPin });
     }
 
     _onReady(event) {
@@ -112,11 +136,12 @@ export class Room extends Component {
         player.cueVideoById(this.state.songs[0].videoId);
         this.deleteSong(this.state.songs[0].videoId);
         player.playVideo();
+        //Emit socket event to room that the queue has updated (update-queue-up)
       }
     }
 
     onStateChange(event) {
-      const player = event.target;
+
     }
 }
 
