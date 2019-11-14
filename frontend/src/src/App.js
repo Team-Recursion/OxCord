@@ -17,11 +17,10 @@ const particleOpt = {
       value: 150,
       density: {
         enable: true,
-        value_area: 800
+        value_area: 800,
       }
     }
   }
-  
 }
 
 function App() {
