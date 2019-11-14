@@ -11,6 +11,8 @@ module.exports = {
                 //Emit down event to room
                 console.log("Room has been created, and host joined");
                 socket.join(data.pin);
+                console.log("sdffsdfsfd");
+                
             });
     
             socket.on('user-join-up', function(data) {

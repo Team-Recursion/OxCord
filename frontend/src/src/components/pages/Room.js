@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import Songs from '../Songs';
 import SearchBar from '../SearchBar'
@@ -15,7 +14,7 @@ export class Room extends Component {
     }
     render() {
       const opts = {
-        height: '600',
+        height: '500',
         width: '600',
         playerVars: { // https://developers.google.com/youtube/player_parameters
           autoplay: 1,
@@ -29,7 +28,7 @@ export class Room extends Component {
             <SearchBar addSong={this.addSong}/>
             <Songs songs={this.state.songs}/>
             <YouTube
-              videoId="is38pqgbj6A"
+              videoId="M7lc1UVf-VE"
               opts={opts}
               onReady={this._onReady.bind(this)}
               onStateChange={this.onStateChange.bind(this)}

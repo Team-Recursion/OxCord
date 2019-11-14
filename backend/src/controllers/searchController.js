@@ -9,7 +9,7 @@ var youtube = google.youtube({
 
 router.post('/search', function(req,res,next) {
     //const {query} = req.body;
-    console.log(req.body);
+    console.log("fssdf");
     //const result = "Search Result";
 
     youtube.search.list({
