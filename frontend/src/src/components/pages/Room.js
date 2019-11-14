@@ -100,7 +100,7 @@ export class Room extends Component {
     }
 
     componentDidMount() {
-      socket = io('http://localhost:8888/communication')
+      socket = io('http://localhost:8080/communication')
       this.generatePin();
       //socket.emit('host-join-up');
       //Adding socket event handlers

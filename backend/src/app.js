@@ -26,5 +26,5 @@ app.use("/searchController", searchControllerRouter);
 
 socketController.startCommunication(io);
 
-console.log('Listening on 8888');
-http.listen(8888);
+console.log('Listening on 8080');
+http.listen(8080);

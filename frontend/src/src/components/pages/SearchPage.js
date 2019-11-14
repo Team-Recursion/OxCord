@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:8888/communication')
-
+var socket = null
 export class SearchPage extends Component {
 
     constructor() {
@@ -15,6 +14,7 @@ export class SearchPage extends Component {
         this.handleGo = this.handleGo.bind(this)
     }
     componentDidMount() {
+        socket = io('http://localhost:8080/communication')
         const pin = this.props.history.location.data;
         this.setState({
             pin: pin
