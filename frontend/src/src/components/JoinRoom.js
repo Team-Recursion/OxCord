@@ -15,8 +15,8 @@ const Button = () => (
       <button
         type='button'
         style={buttonStyle}
-        onClick={() => { history.push('/', Math.floor(Math.random() * 9000, 10000)) }}
-      >
+        onClick={() => { history.push('/JoinPage') }}
+        >
         JoinRoom
       </button>
     )} />
