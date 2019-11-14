@@ -6,10 +6,13 @@ import axios from 'axios';
 import Particles from 'react-particles-js';
 import logo from './randomLogo.png';
 
+
 import './App.css';
 import CreateRoom from './components/CreateRoom';
 import JoinRoom from './components/JoinRoom';
 import Room from './components/pages/Room';
+import JoinPage from './components/pages/JoinPage';
+import SearchPage  from './components/pages/SearchPage';
 
 const particleOpt = {
   particles:{
@@ -53,6 +56,8 @@ function App() {
           </div>
         )} />
         <Route path="/room" component={Room} />
+        <Route path="/joinPage" component={JoinPage}/>
+        <Route path="/searchPage" component={SearchPage}/>
       </div>
     </Router>
     
@@ -180,7 +185,5 @@ function App() {
   //   )
   // }
 }
-
-
 
 export default App;
