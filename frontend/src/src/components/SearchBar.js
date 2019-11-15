@@ -12,22 +12,22 @@ export class SearchBar extends Component {
 
     handleSubmit = (event) => {
       //alert('A name was submitted: ' + this.state.value);
-      console.log('currently submitted query', this.state.searchQuery)
+      //console.log('SearchBarjs: currently submitted query', this.state.searchQuery)
       var string = this.state.searchQuery;
       
       const query = {
         "value":string
       };
 
-      axios.post('http://localhost:8888/searchController/search', query)
+      axios.post('http://localhost:8080/searchController/search', query)
         .then((data) => {
-          console.log(data);
+          //console.log('SeachBar.js: responde from yt', data);
           
           this.props.addSong(data.data)
           this.setState({searchQuery: ''})
         })
         .catch(err => {
-          console.error('quiery didnt work');
+          console.error('SearchBar.js: quiery didnt work');
         })
       event.preventDefault();
       //player.cueVideoById("https://www.youtube.com/watch?v=YEJBmmqXUQs");

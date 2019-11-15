@@ -46,6 +46,23 @@ export class JoinPage extends Component {
     render() {
         return (
             <div className='component-container' >
+                {/* <form onSubmit={this.routeChange} style={{display: 'flex'}}>
+                    <input
+                        type="text"
+                        name="textBox"
+                        style={{ flex: '10', padding: '5px' }}
+                        placeholder="Enter Room Number"
+                        value={this.state.searchQuery}
+                        onChange={this.handleChange}
+                    />
+                    <input
+                        type="submit"
+                        name="title"
+                        placeholder="Search"
+                        style={buttonStyle}
+
+                    />
+                </form> */}
             <div>
                 </div> 
                 {
@@ -68,6 +85,15 @@ export class JoinPage extends Component {
             </div>
         )
     }
+}
+
+const buttonStyle = {
+    display: 'inline-block',
+    borderColor: '#555',
+    background: '#555',
+    color: '#fff',
+    paadding: '7px 20px',
+    cursor: 'pointer'
 }
 
 export default JoinPage;

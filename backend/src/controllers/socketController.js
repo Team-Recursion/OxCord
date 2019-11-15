@@ -11,7 +11,6 @@ module.exports = {
                 //Emit down event to room
                 console.log(`Room ${data.pin} has been created, and host joined`);
                 socket.join(data.pin);
-                console.log("sdffsdfsfd");
                 
             });
 
@@ -37,8 +36,13 @@ module.exports = {
     
             socket.on('add-song-up', function(data) {
                 //Emit down event to room
-                console.log("add-song-up");
+                console.log("add-song-up", data);
+                
+                comms.in(`${data.pin}`).emit('add-song-down', data)
             });
+            socket.on('remove-song-up', function(data){
+                comms.in(`${data.pin}`).emit('remove-song-down', data)
+            })
     
             socket.on('update-queue-up', function(data) {
                 //Emit down event to room

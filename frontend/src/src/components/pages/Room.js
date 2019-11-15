@@ -10,7 +10,8 @@ var socket = null;
 export class Room extends Component {
     state = {
         songs: [
-        ]      
+        ],
+        pin: ''      
     }
     render() {
       const opts = {
@@ -85,15 +86,16 @@ export class Room extends Component {
         description: song.description,
         thumbnail: song.thumbnail
       }
-      this.setState({ songs: [...this.state.songs, newSong] });
+      console.log('room.js: emmitting to server');
+      socket.emit('add-song-up', {song: song, pin: this.state.pin});
     }
 
     deleteSong = (videoId) => {
-        this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== videoId)] });
+      socket.emit('remove-song-up', {videoId: videoId, pin: this.state.pin});
     }
 
     callAPI() {
-      fetch("http://localhost:8888/testAPI")
+      fetch("http://localhost:8080/testAPI")
         .then(res => res.text())
         .then(res => this.setState({apiResponse: res}))
         .catch(console.log);
@@ -111,6 +113,25 @@ export class Room extends Component {
 
       socket.on('add-song-down', data => {
         //Add song to state array
+        console.log('request made from user at pin', data.pin);
+        console.log('local pin', this.state.pin);
+        
+        if(data.pin == this.state.pin){
+          console.log('adding user request to host side');
+          
+          this.setState({ songs: [...this.state.songs, data.song] })
+          //localStorage.setItem('songsInLocalStorage', this.state.songs);
+          //console.log('songs in local storage', localStorage.getItem('songsInLocalStorage'));
+          }
+      });
+      socket.on('remove-song-down', data =>{
+        console.log('request made from user at pin', data.pin);
+        console.log('local pin', this.state.pin);
+
+        if(data.pin == this.state.pin){
+          this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
+        }
+        
       });
 
       socket.on('test', data => {
@@ -126,7 +147,6 @@ export class Room extends Component {
 
     _onReady(event) {
       // access to player in all event handlers via event.target
-      console.log('onready');
     
       event.target.playVideo();
       const player = event.target;

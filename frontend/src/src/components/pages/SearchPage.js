@@ -2,23 +2,84 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import io from 'socket.io-client';
+import SearchBar from '../SearchBar';
+import Songs from '../Songs';
 
 var socket = null
+
+// const [songs, setSongs] = React.useState(
+//     localStorage.getItem('songsInLocalStorage') || []
+//   );
+
+//   React.useEffect(() => {
+//     localStorage.setItem('songsInLocalStorage', songs); 
+//   }, [songs]);
+
 export class SearchPage extends Component {
 
     constructor() {
         super();
+        
         this.state = {
-            pin: ''
+            songs: []
         }
         this.handleGo = this.handleGo.bind(this)
     }
     componentDidMount() {
+        
         socket = io('http://localhost:8080/communication')
-        const pin = this.props.history.location.data;
+        var pin = this.props.history.location.data;
+        var songs = [];
+
+        // console.log('local pin:', localStorage.getItem('pinInLocalStorage'));
+        // console.log(localStorage.getItem('pinInLocalStorage') == 'undefined');
+        
+        // console.log('pin history value:', pin);
+        // console.log(pin == 'undefined');
+        // console.log(pin != 'undefined');
+        
+        
+        
+        // console.log(pin == localStorage.getItem('pinInLocalStorage'));
+        
+        // if(localStorage.getItem('pinInLocalStorage') == 'undefined'){
+        //     console.log('pin set to history');
+        //     pin = this.props.history.location.data;
+        // }
+        // else{
+        //     console.log(pin === 'undefined');
+        //     console.log(pin);
+            
+            
+        //     if(pin == 'undefined'){
+        //         console.log('pin undefined and set to local value');
+                
+        //         pin = localStorage.getItem('pinInLocalStorage')
+        //     }
+        //     else{
+        //         console.log('local not null and pin not undefined so set to pin');
+        //         pin = pin
+                
+        //     }
+        // }
+
+        // console.log('type of local songs', typeof(localStorage.getItem('songsInLocalStorage')));
+        // console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
+        
+        // if(localStorage.getItem('songsInLocalStorage') !== 'undefined'){
+        //     songs = localStorage.getItem('songsInLocalStorage')
+        // }
+        // else{
+        //     songs = [];
+        // }
+
         this.setState({
-            pin: pin
+            pin: pin,
+            songs: []
         })
+        localStorage.setItem('pinInLocalStorage', pin);
+        console.log('pin in local storage', localStorage.getItem('pinInLocalStorage'));
+        
         //Emit event that a user (you in this case) has joined the room
         socket.emit('user-join-up', { pin: pin});
 
@@ -29,21 +90,53 @@ export class SearchPage extends Component {
     
         socket.on('add-song-down', data => {
             //Add song to state array
+            console.log('request made by host at pin', data.pin);
+            console.log('local pin', this.state.pin);
+            
+            if(data.pin == this.state.pin){
+                console.log('adding request from host');
+                
+                this.setState({ songs: [...this.state.songs, data.song] })
+                // localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+                // console.log('songs in local storage', JSON.parse(localStorage.getItem('songsInLocalStorage')));
+                
+            }
         });
+        socket.on('remove-song-down', data =>{
+            console.log('request made from user at pin', data.pin);
+            console.log('local pin', this.state.pin);
+    
+            if(data.pin == this.state.pin){
+              this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
+            }
+            
+          });
 
         socket.on('update-queue-down', data => {
             //Update SearchRoom's queue
         });
-
         socket.on('test', data => {
             alert("test");
           })
     };
 
+    
     //Method to add song to host room
-    addSong() {
-        //Emit socket event to room with a song request.
-    }
+    addSong = (song) => {
+        console.log('SearchPage.js: adding new song', song);
+        const newSong = {
+          videoId: song.videoId,
+          title: song.title,
+          description: song.description,
+          thumbnail: song.thumbnail
+        }
+        console.log('SearchPage.js: emmitting to server');
+        socket.emit('add-song-up', {song: song, pin: this.state.pin});
+      }
+  
+      deleteSong = (videoId) => {
+          this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== videoId)] });
+      }
 
     handleGo(e) {
         socket.emit('test', {pin: this.state.pin});
@@ -52,13 +145,11 @@ export class SearchPage extends Component {
     render() {
         return (
             <div className='component-container' >
+                <SearchBar addSong={this.addSong}/>
+                <Songs songs={this.state.songs}/>
             <div>
                 </div> 
-                {
-                    <h1>hello</h1>
-                }
-                <button onClick={this.handleGo} className='btn-enter' >Enter</button>
-
+                {/* <button onClick={this.handleGo} className='btn-enter' >Enter</button> */}
             </div>
         )
     }
