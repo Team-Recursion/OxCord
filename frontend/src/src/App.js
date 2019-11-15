@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import YouTube from 'react-youtube';
 import axios from 'axios';
 import Particles from 'react-particles-js';
-import logo from './randomLogo.png';
+import logo from './OxCordLogoFinal.png';
 
 import './App.css';
 import CreateRoom from './components/CreateRoom';
@@ -61,7 +61,7 @@ function App() {
     </Router>
     
   );
-
+}
 // class App extends Component {
 
 //   render() {
@@ -183,7 +183,5 @@ function App() {
   //     </div>
   //   )
   // }
-
-}
 
 export default App;
