@@ -11,15 +11,27 @@ module.exports = {
                 //Emit down event to room
                 console.log(`Room ${data.pin} has been created, and host joined`);
                 socket.join(data.pin);
+                console.log("sdffsdfsfd");
+                
+            });
+
+            socket.on('disconnect', function(data) {
+                //Emit down event to room
+                console.log("user disconnected");                 
             });
     
             socket.on('user-join-up', function(data) {
                 //Emit down event to room  
                 console.log(`User has joined room ${data.pin}`); 
+                var clients = comms.in(data.pin).clients((err,clients) => {
+                    if(err) throw error;
+                    console.log('Number of users in room ' + data.pin + " " + clients)
+                });
                 socket.join(data.pin);         
             });
 
             socket.on('test', function(data) {
+                console.log("test");
                 comms.in(`${data.pin}`).emit('test');
             })
     
@@ -33,8 +45,5 @@ module.exports = {
                 console.log("update-queue-up");
             });
         })
-
-        
-        
     }
 }

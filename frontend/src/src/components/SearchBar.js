@@ -22,11 +22,12 @@ export class SearchBar extends Component {
       axios.post('http://localhost:8888/searchController/search', query)
         .then((data) => {
           console.log(data);
+          
           this.props.addSong(data.data)
           this.setState({searchQuery: ''})
         })
         .catch(err => {
-          console.error(err);
+          console.error('quiery didnt work');
         })
       event.preventDefault();
       //player.cueVideoById("https://www.youtube.com/watch?v=YEJBmmqXUQs");

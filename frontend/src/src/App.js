@@ -6,7 +6,6 @@ import axios from 'axios';
 import Particles from 'react-particles-js';
 import logo from './randomLogo.png';
 
-
 import './App.css';
 import CreateRoom from './components/CreateRoom';
 import JoinRoom from './components/JoinRoom';
@@ -184,6 +183,5 @@ function App() {
   //     </div>
   //   )
   // }
-}
 
 export default App;

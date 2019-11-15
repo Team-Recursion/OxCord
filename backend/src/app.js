@@ -12,9 +12,11 @@ app.use(cors());
 // parse application/x-www-asdform-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use(function(req,res,next) {
-    res.header('Access-Control-Allow-Credentials', true);
-});
+//never returns causes problems for search calls
+
+// app.use(function(req,res,next) {
+//     res.header('Access-Control-Allow-Credentials', true);
+// });
 
 // parse application/json
 app.use(bodyParser.json())
@@ -24,5 +26,5 @@ app.use("/searchController", searchControllerRouter);
 
 socketController.startCommunication(io);
 
-console.log('Listening on 8888');
-http.listen(8888);
+console.log('Listening on 8080');
+http.listen(8080);
