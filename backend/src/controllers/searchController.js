@@ -13,7 +13,7 @@ router.post('/search', function(req,res,next) {
 
     youtube.search.list({
         part: 'snippet',
-        order: 'viewCount',
+        order: 'relevance',
         q: req.body.value,
         type: 'video'
       }, function (err, data) {
