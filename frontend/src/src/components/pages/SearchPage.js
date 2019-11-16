@@ -21,7 +21,8 @@ export class SearchPage extends Component {
         super();
         
         this.state = {
-            songs: []
+            songs: [],
+            requests: []
         }
         this.handleGo = this.handleGo.bind(this)
     }
@@ -35,33 +36,33 @@ export class SearchPage extends Component {
         // console.log(localStorage.getItem('pinInLocalStorage') == 'undefined');
         
         // console.log('pin history value:', pin);
-        // console.log(pin == 'undefined');
-        // console.log(pin != 'undefined');
+        // console.log(pin == undefined);
+        // console.log(pin != undefined);
         
         
         
-        // console.log(pin == localStorage.getItem('pinInLocalStorage'));
+        console.log(pin == localStorage.getItem('pinInLocalStorage'));
         
-        // if(localStorage.getItem('pinInLocalStorage') == 'undefined'){
-        //     console.log('pin set to history');
-        //     pin = this.props.history.location.data;
-        // }
-        // else{
-        //     console.log(pin === 'undefined');
-        //     console.log(pin);
+        if(localStorage.getItem('pinInLocalStorage') == 'undefined'){
+            console.log('pin set to history');
+            pin = this.props.history.location.data;
+        }
+        else{
+            console.log(pin === undefined);
+            console.log(pin);
             
             
-        //     if(pin == 'undefined'){
-        //         console.log('pin undefined and set to local value');
+            if(pin == undefined){
+                console.log('pin undefined and set to local value');
                 
-        //         pin = localStorage.getItem('pinInLocalStorage')
-        //     }
-        //     else{
-        //         console.log('local not null and pin not undefined so set to pin');
-        //         pin = pin
+                pin = localStorage.getItem('pinInLocalStorage')
+            }
+            else{
+                console.log('local not null and pin not undefined so set to pin');
+                pin = pin
                 
-        //     }
-        // }
+            }
+        }
 
         // console.log('type of local songs', typeof(localStorage.getItem('songsInLocalStorage')));
         // console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
@@ -79,6 +80,7 @@ export class SearchPage extends Component {
         })
         localStorage.setItem('pinInLocalStorage', pin);
         console.log('pin in local storage', localStorage.getItem('pinInLocalStorage'));
+        console.log(JSON.parse('local songs', localStorage.getItem('songsInLocalStorage')));
         
         //Emit event that a user (you in this case) has joined the room
         socket.emit('user-join-up', { pin: pin});
@@ -92,12 +94,17 @@ export class SearchPage extends Component {
             //Add song to state array
             console.log('request made by host at pin', data.pin);
             console.log('local pin', this.state.pin);
+            console.log(localStorage.getItem('songsInLocalStorage'));
+            
+            //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
+            
             
             if(data.pin == this.state.pin){
                 console.log('adding request from host');
-                
+
                 this.setState({ songs: [...this.state.songs, data.song] })
-                // localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+                console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
+                localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
                 // console.log('songs in local storage', JSON.parse(localStorage.getItem('songsInLocalStorage')));
                 
             }
@@ -148,7 +155,7 @@ export class SearchPage extends Component {
                 <SearchBar addSong={this.addSong}/>
                 <Songs songs={this.state.songs}/>
             <div>
-                </div> 
+            </div> 
                 {/* <button onClick={this.handleGo} className='btn-enter' >Enter</button> */}
             </div>
         )
