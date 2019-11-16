@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Songs from '../Songs';
+import HostSongs from '../HostSongs';
 import SearchBar from '../SearchBar'
 import YouTube from 'react-youtube';
 import io from 'socket.io-client';
-import axios from 'axios';
+import SongRequests from '../SongRequests';
 
 var socket = null;
 
@@ -11,7 +11,8 @@ export class Room extends Component {
     state = {
         songs: [
         ],
-        pin: ''      
+        pin: '',
+        requests: []
     }
     render() {
       const opts = {
@@ -26,68 +27,59 @@ export class Room extends Component {
       };
       return (
         <div>
-            <SearchBar addSong={this.addSong}/>
-            <Songs songs={this.state.songs}/>
+            <h1>Room #:{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
+            <SearchBar addRequests={this.addRequests}/>
+            <p>Current Queue</p>
+            <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
+            <p>Song Requests</p>
+            <SongRequests requests={this.state.requests} addSong={this.addSong}/>
             <YouTube
-              videoId="M7lc1UVf-VE"
+              videoId={'M7lc1UVf-VE'}
               opts={opts}
               onReady={this._onReady.bind(this)}
               onStateChange={this.onStateChange.bind(this)}
               onEnd={this.onEnd.bind(this)}
             />
-            {/* <p className = "App-intro">{this.state.apiResponse}</p>
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Name:
-                <input type="text" name="textBox" value={this.state.value} onChange={this.handleChange} />
-              </label>
-              <input type="submit" value="Submit" />
-            </form> */}
         </div>
       );
     }
-    constructor(props) {
-      super(props);
-        // this.state = { 
-        //   songs: [
-        //   ],
-        // };
 
+    addRequests = (songs) => {
+      console.log('SearchPage.js: adding new songs', songs);
+      this.setState({requests: []})
+      songs.map((song) => (
+        this.setState({ requests: [...this.state.requests, {
+          videoId: song.id.videoId,
+          title: song.snippet.title,
+          description: song.snippet.description,
+          thumbnail: song.snippet.thumbnails.default.url
+        }] })
+      ));
     }
 
-    // handleSubmit(event) {
-    //   //alert('A name was submitted: ' + this.state.value);
-    //   var string = this.state.value;
-    //   const query = {
-    //     "value":string
-    //   };
-    //   this.setState({value:''});
-    //   axios.post('http://localhost:8888/searchController/search', query)
-    //     .then((data) => {
-    //       console.log(data.data);
-    //       this.setState({id: data.data})
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //     })
-    //       event.preventDefault();
-    //       //player.cueVideoById("https://www.youtube.com/watch?v=YEJBmmqXUQs");
-    // }
-  
-    // handleChange(event) {
-    //   this.setState({value: event.target.value});
-    // }
-
     addSong = (song) => {
-      console.log('adding new song', song);
-      const newSong = {
-        videoId: song.videoId,
-        title: song.title,
-        description: song.description,
-        thumbnail: song.thumbnail
+      var duplicate = false
+      this.state.songs.map((item) => {
+          if(item.videoId === song.videoId){
+              duplicate = true
+          }
+      });
+
+      if(duplicate){
+          alert('That song is already in the queue!')
       }
-      console.log('room.js: emmitting to server');
-      socket.emit('add-song-up', {song: song, pin: this.state.pin});
+      else{
+      console.log(song);
+        const newSong = {
+          videoId: song.videoId,
+          title: song.title,
+          description: song.description,
+          thumbnail: song.thumbnail
+        }
+        console.log('SearchPage.js: emmitting to server');
+        socket.emit('add-song-up', {song: newSong, pin: this.state.pin});
+        this.setState({ requests: [...this.state.requests.filter(item => item.videoId !== song.videoId)] })
+      }
     }
 
     deleteSong = (videoId) => {
@@ -103,8 +95,54 @@ export class Room extends Component {
 
     componentDidMount() {
       socket = io('http://localhost:8080/communication')
-      this.generatePin();
-      //socket.emit('host-join-up');
+      //this.generatePin();
+      var pin = this.props.history.location.data;
+      var songs = []
+      console.log('pin from history', pin);
+      console.log('pin in local', localStorage.getItem('pinInLocalStorage'));
+      
+      
+      var newRoom = false;
+
+      if(localStorage.getItem('pinInLocalStorage') == 'undefined'){
+          console.log('pin set to history');
+          pin = this.props.history.location.data;
+      }
+      else{
+          // console.log(pin === undefined);
+          // console.log(pin);
+          
+          
+          if(pin == undefined){
+              console.log('pin undefined and set to local value');
+              pin = localStorage.getItem('pinInLocalStorage')
+          }
+          else{
+              newRoom = true
+              console.log('local not null and pin not undefined so set to pin');
+          }
+      }
+
+      //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
+      
+      if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
+          console.log('songs set to local');
+          songs = JSON.parse(localStorage.getItem('songsInLocalStorage'))
+      }
+      else{
+          console.log('songs set to nothing');
+          localStorage.removeItem('songsInLocalStorage');
+          songs = []
+      }
+      socket.emit('host-join-up', { pin: pin });
+
+      this.setState({ 
+        pin: pin,
+        songs: songs,
+        currentVid: ''
+      });
+
+      localStorage.setItem('pinInLocalStorage', pin);
       //Adding socket event handlers
       socket.on('user-join-down', data => {
         //Add 1 to a count of users currently in room
@@ -113,23 +151,17 @@ export class Room extends Component {
 
       socket.on('add-song-down', data => {
         //Add song to state array
-        console.log('request made from user at pin', data.pin);
-        console.log('local pin', this.state.pin);
         
         if(data.pin == this.state.pin){
-          console.log('adding user request to host side');
           
           this.setState({ songs: [...this.state.songs, data.song] })
-          //localStorage.setItem('songsInLocalStorage', this.state.songs);
-          //console.log('songs in local storage', localStorage.getItem('songsInLocalStorage'));
+          localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
           }
       });
       socket.on('remove-song-down', data =>{
-        console.log('request made from user at pin', data.pin);
-        console.log('local pin', this.state.pin);
-
         if(data.pin == this.state.pin){
           this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
+          localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
         }
         
       });
@@ -138,13 +170,6 @@ export class Room extends Component {
         alert("test");
       })
     }
-
-    generatePin() {
-      let newPin = Math.floor(Math.random() * 9000, 10000)
-      this.setState({ pin: newPin })
-      socket.emit('host-join-up', { pin: newPin });
-    }
-
     _onReady(event) {
       // access to player in all event handlers via event.target
     
@@ -156,6 +181,7 @@ export class Room extends Component {
       const player = event.target;
       if(this.state.songs.length){
         console.log('onend', this.state.songs[0].videoId);
+        this.setState({currentVid: this.state.songs[0].title});
         player.cueVideoById(this.state.songs[0].videoId);
         this.deleteSong(this.state.songs[0].videoId);
         player.playVideo();

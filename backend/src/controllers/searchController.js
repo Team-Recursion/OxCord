@@ -27,15 +27,15 @@ router.post('/search', function(req,res,next) {
           // console.log(data.data.items[0]);
           // console.log(data.data.items[0].snippet.thumbnails.default.url);
           
-          // res.send(data.data.items[0].id.videoId);
-          console.log(data);
+          res.send(data.data.items);
+          console.log(data.data.items);
           
-          res.json({ 
-            videoId: data.data.items[0].id.videoId,
-            title: data.data.items[0].snippet.title,
-            description: data.data.items[0].snippet.description,
-            thumbnail: data.data.items[0].snippet.thumbnails.default.url
-          })
+          // res.json({ 
+          //   videoId: data.data.items[0].id.videoId,
+          //   title: data.data.items[0].snippet.title,
+          //   description: data.data.items[0].snippet.description,
+          //   thumbnail: data.data.items[0].snippet.thumbnails.default.url
+          // })
         }
       });
 });

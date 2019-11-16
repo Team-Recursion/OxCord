@@ -3,28 +3,34 @@ import { Route } from 'react-router-dom'
 import './Room.css';
 
 export class CreateRoom extends Component {
-    
+
     render() {
         return (
             <div>
-              <Button />
+              <Route render={({ history}) => (
+                <button
+                  type='button'
+                  className='button'
+                  style={buttonStyle}
+                  onClick={() => { 
+                    let newPin = Math.floor(Math.random() * 9000, 10000)
+                    this.setState({ pin: newPin })
+          
+                    let path = '/room';
+                    history.push({
+                        pathname: path,
+                        data: newPin
+                    }
+                    ) 
+                  }}
+                >
+                  <span>Create Room</span>
+                </button>
+              )} />
             </div>
         )
     }
 }
-
-const Button = () => (
-    <Route render={({ history}) => (
-      <button
-        type='button'
-        className='button'
-        style={buttonStyle}
-        onClick={() => { history.push('/room') }}
-      >
-        <span>Create Room</span>
-      </button>
-    )} />
-  )
 
 
 const buttonStyle = {

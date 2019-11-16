@@ -23,7 +23,7 @@ export class SearchBar extends Component {
         .then((data) => {
           //console.log('SeachBar.js: responde from yt', data);
           
-          this.props.addSong(data.data)
+          this.props.addRequests(data.data)
           this.setState({searchQuery: ''})
         })
         .catch(err => {

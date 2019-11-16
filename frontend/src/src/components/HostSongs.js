@@ -1,19 +1,19 @@
 import React, { Component } from 'react'; 
-import SongItem from './SongItem';
+import HostSongItem from './HostSongItem';
 
-export class Songs extends Component {
+export class HostSongs extends Component {
     render() { 
         
         return this.props.songs.map((song) => (
-            <SongItem 
+            <HostSongItem 
                 key={song.videoId} 
                 song={song}                
-                addSong={this.props.addSong}
+                deleteSong={this.props.deleteSong}
             />
         ));
     }
 }
 
-export default Songs
+export default HostSongs
 
 

@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 
 export class SongItem extends Component {
+    
     render() {
+        const {title, description, thumbnail} = this.props.song;
         return (
             <div style={songItemStyle}>
-                <p1>
+                <p>
                     <img 
-                        src={this.props.songThumbnail} 
-                        alt= {this.props.songTitle}
+                        src={thumbnail} 
+                        alt= {title}
                     />
-                {this.props.songTitle}
-                {this.props.songDescription}</p1>
+                {title}
+                {description}</p>
             </div>
         )
     }
@@ -24,9 +25,5 @@ const songItemStyle = {
     textDecoration: 'none'
 }
 
-
-SongItem.propTypes = {
-    song: PropTypes.object.isRequired
-}
 
 export default SongItem
