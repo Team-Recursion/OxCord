@@ -80,7 +80,7 @@ export class SearchPage extends Component {
         })
         localStorage.setItem('pinInLocalStorage', pin);
         console.log('pin in local storage', localStorage.getItem('pinInLocalStorage'));
-        console.log(JSON.parse('local songs', localStorage.getItem('songsInLocalStorage')));
+        console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
         
         //Emit event that a user (you in this case) has joined the room
         socket.emit('user-join-up', { pin: pin});
@@ -103,9 +103,10 @@ export class SearchPage extends Component {
                 console.log('adding request from host');
 
                 this.setState({ songs: [...this.state.songs, data.song] })
-                console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
+                console.log(this.state.songs)
+                //console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
+                console.log('Song state: ' + JSON.stringify(this.state.songs))
                 localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-                // console.log('songs in local storage', JSON.parse(localStorage.getItem('songsInLocalStorage')));
                 
             }
         });
