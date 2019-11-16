@@ -42,17 +42,29 @@ export class JoinPage extends Component {
         pathname: path,
         data: this.state.pin
     });
-  }
+    }
+    handleChange = (event) => {
+        this.setState({pin: event.target.value});
+    }
+
+    handleSubmit = (event) => {
+        let path = `/searchPage`;
+        this.props.history.push({
+            pathname: path,
+            data: this.state.pin
+        });
+    }
+
     render() {
         return (
             <div className='component-container' >
-                {/* <form onSubmit={this.routeChange} style={{display: 'flex'}}>
+                <form onSubmit={this.routeChange} style={{width: '800px', margin: '0 auto'}}>
                     <input
                         type="text"
                         name="textBox"
                         style={{ flex: '10', padding: '5px' }}
                         placeholder="Enter Room Number"
-                        value={this.state.searchQuery}
+                        value={this.state.pin}
                         onChange={this.handleChange}
                     />
                     <input
@@ -62,10 +74,10 @@ export class JoinPage extends Component {
                         style={buttonStyle}
 
                     />
-                </form> */}
+                </form>
             <div>
                 </div> 
-                {
+                {/* {
                     !this.state.toggle
                         ?
                         <div className='landing-wrapper' >
@@ -81,7 +93,7 @@ export class JoinPage extends Component {
                           <div className='logo-container' >
                           </div> 
                         </div>
-                }
+                } */}
             </div>
         )
     }

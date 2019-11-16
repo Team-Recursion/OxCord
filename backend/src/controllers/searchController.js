@@ -28,6 +28,8 @@ router.post('/search', function(req,res,next) {
           // console.log(data.data.items[0].snippet.thumbnails.default.url);
           
           // res.send(data.data.items[0].id.videoId);
+          console.log(data);
+          
           res.json({ 
             videoId: data.data.items[0].id.videoId,
             title: data.data.items[0].snippet.title,
