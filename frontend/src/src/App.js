@@ -37,13 +37,6 @@ function App() {
                 <p>
                   Welcome to OxCord, the world's first Video Player Sharer!
                 </p>
-                <a
-                  className="App-link"
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                </a>
                 <h1>Join the Party!</h1>
                 <CreateRoom/>
                 <JoinRoom/>

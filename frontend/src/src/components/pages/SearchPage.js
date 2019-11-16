@@ -74,12 +74,10 @@ export class SearchPage extends Component {
             
             if(data.pin == this.state.pin){
                 this.setState({ songs: [...this.state.songs, data.song] })
+                console.log(this.state.songs)
                 //console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
-
-                localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-                
-                //console.log('songs in local storage', JSON.parse(localStorage.getItem('songsInLocalStorage')));
-                
+                console.log('Song state: ' + JSON.stringify(this.state.songs))
+                localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));   
             }
         });
         socket.on('remove-song-down', data =>{
