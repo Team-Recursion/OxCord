@@ -15,12 +15,9 @@ export class Room extends Component {
       ],
       pin: '',
       requests: [],
-      flag: false,
-      playerObject: null
   }
 
   componentDidMount() {
-    this.playerRef = React.createRef();
     socket = io('http://localhost:8080/communication')
 
     window.addEventListener('beforeunload', this.handleClose);
