@@ -4,6 +4,7 @@ import SearchBar from '../SearchBar'
 import YouTube from 'react-youtube';
 import io from 'socket.io-client';
 import SongRequests from '../SongRequests';
+import { SlowBuffer } from 'buffer';
 
 var socket = null;
 
@@ -92,8 +93,8 @@ export class Room extends Component {
         .then(res => this.setState({apiResponse: res}))
         .catch(console.log);
     }
-
     componentDidMount() {
+      localStorage.removeItem('songsInLocalStorage')
       socket = io('http://localhost:8080/communication')
       //this.generatePin();
       var pin = this.props.history.location.data;
@@ -133,6 +134,7 @@ export class Room extends Component {
           console.log('songs set to nothing');
           localStorage.removeItem('songsInLocalStorage');
           songs = []
+          //localStorage.setItem('songsInLocalStorage', JSON.stringify(songs))
       }
       socket.emit('host-join-up', { pin: pin });
 
@@ -164,6 +166,14 @@ export class Room extends Component {
           localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
         }
         
+      });
+      socket.on('user-request-queue-down', function(data){
+        console.log('user-request-queue-down');
+        console.log(data.pin);
+        
+        socket.emit('host-response-queue-up', {
+                                              songs: JSON.parse(localStorage.getItem('songsInLocalStorage')), 
+                                              pin: localStorage.getItem('pinInLocalStorage')})
       });
 
       socket.on('test', data => {

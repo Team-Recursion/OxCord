@@ -19,7 +19,6 @@ export class SearchPage extends Component {
     componentDidMount() {
         socket = io('http://localhost:8080/communication')
         var pin = this.props.history.location.data;
-        var songs = [];
         
         var newRoom = false;
 
@@ -37,24 +36,25 @@ export class SearchPage extends Component {
                 console.log('local not null and pin not undefined so set to pin');
             }
         }
-        if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
-            console.log('songs set to local');
-            songs = JSON.parse(localStorage.getItem('songsInLocalStorage'))
-        }
-        else{
-            console.log('songs set to nothing');
-            localStorage.removeItem('songsInLocalStorage');
-            songs = []
-        }
+        // if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
+        //     console.log('songs set to local');
+        //     songs = JSON.parse(localStorage.getItem('songsInLocalStorage'))
+        // }
+        // else{
+        //     console.log('songs set to nothing');
+        //     localStorage.removeItem('songsInLocalStorage');
+        //     songs = []
+        // }
         this.setState({
             pin: pin,
-            songs: songs,
+            songs: [],
             requests: [],
             currentVid: ''
         })
         localStorage.setItem('pinInLocalStorage', pin);
         console.log('pin in local storage', localStorage.getItem('pinInLocalStorage'));
-        console.log('songs in local storage', JSON.parse(localStorage.getItem('songsInLocalStorage')));
+        // console.log('songs in local storage', JSON.parse(localStorage.getItem('songsInLocalStorage')));
+
         
         //localStorage.removeItem('songsInLocalStorage');
 
@@ -65,7 +65,6 @@ export class SearchPage extends Component {
         socket.on('user-join-down', data => {
             //Add 1 to a count of users currently in room
         });
-    
         socket.on('add-song-down', data => {
             // console.log(localStorage.getItem('songsInLocalStorage'));
             
@@ -77,7 +76,7 @@ export class SearchPage extends Component {
                 console.log(this.state.songs)
                 //console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
                 console.log('Song state: ' + JSON.stringify(this.state.songs))
-                localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));   
+                // localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));   
             }
         });
         socket.on('remove-song-down', data =>{
@@ -86,7 +85,7 @@ export class SearchPage extends Component {
     
             if(data.pin == this.state.pin){
               this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
-              localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+            //   localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
             }
             
           });
@@ -97,9 +96,24 @@ export class SearchPage extends Component {
         socket.on('test', data => {
             alert("test");
           })
+        console.log(this.state);
+        
+        //this.fetchSongs()
     };
 
-    
+    fetchSongs = () => {
+        console.log('emmitting request for songs');
+        console.log(localStorage.getItem('pinInLocalStorage'));
+
+        socket.emit('user-request-queue-up', {pin: localStorage.getItem('pinInLocalStorage')});
+
+        socket.on('host-response-queue-down', function(data){
+            console.log('song info received');
+            this.setState({songs: data.songs})
+            //localStorage.setItem('songsInLocalStorage', JSON.stringify(data.songs))
+        });
+    }
+
     //Method to add song to host room
     addRequests = (songs) => {
         console.log('SearchPage.js: adding new songs', songs);
