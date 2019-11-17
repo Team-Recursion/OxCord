@@ -1,3 +1,5 @@
+const dbAPI = require('../dynamodb/dbAPI');
+
 module.exports = {
     startCommunication : function(io) {
         console.log("Start socket connection");
@@ -10,8 +12,13 @@ module.exports = {
             //triggers on created room
             socket.on('host-join-up', function(data) {
                 //Emit down event to room
-                console.log(`Room ${data.pin} has been created, and host joined`);
-                socket.join(data.pin);
+                if(data.pin) {
+                    console.log(`Room ${data.pin} has been created, and host joined`);
+                    socket.join(data.pin);
+                } else {
+                    console.log("Room PIN is undefined");
+                }
+                
                 
             });
 
@@ -19,6 +26,11 @@ module.exports = {
             socket.on('disconnect', function(data) {
                 //Emit down event to room
                 console.log("user disconnected");                 
+            });
+
+            socket.on('delete-room', function(data) {
+                console.log("Delete room");
+                dbAPI.deleteRoom(data.pin);
             });
 
             //triggers upon regular user joining room

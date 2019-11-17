@@ -7,39 +7,39 @@ export class SearchBar extends Component {
     state = {
         searchQuery: ''
     }
-    parser(time){
-        var timeStr = '';
-        var hours = '';
-        var minutes = '';
-        var seconds = '';
+    // parser(time){
+    //     var timeStr = '';
+    //     var hours = '';
+    //     var minutes = '';
+    //     var seconds = '';
         
-        var index = time.length-1;
+    //     var index = time.length-1;
         
-        while(index > -1){
-            if(time.indexOf('S') !== -1){
-                while(time.charAt(i-1) !== 'M' || time.charAt(i-1) !== 'H'|| time.charAt(i-1) !== 'T'){
-                    seconds.concat(time.charAt(i-1));
-                    index--;
-                }
-            }
-            else if(time.indexOf('M') !== -1){
-                while(time.charAt(i-1) !== 'H'|| time.charAt(i-1) !== 'T'){
-                    minutes.concat(time.charAt(i-1));
-                    index--;
-                }
-            }
-            else if(time.indexOf('H') !== -1){
-                while(time.charAt(i-1) !== 'T'){
-                    hours.concat(time.charAt(i-1));
-                    index--;
-                }
-            }
-            else{
-                index--;
-            }
-        }
-        return {hours: hours, minutes: minutes, seconds: seconds}
-    }
+    //     while(index > -1){
+    //         if(time.indexOf('S') !== -1){
+    //             while(time.charAt(i-1) !== 'M' || time.charAt(i-1) !== 'H'|| time.charAt(i-1) !== 'T'){
+    //                 seconds.concat(time.charAt(i-1));
+    //                 index--;  
+    //             }
+    //         }
+    //         else if(time.indexOf('M') !== -1){
+    //             while(time.charAt(i-1) !== 'H'|| time.charAt(i-1) !== 'T'){
+    //                 minutes.concat(time.charAt(i-1));
+    //                 index--;
+    //             }
+    //         }
+    //         else if(time.indexOf('H') !== -1){
+    //             while(time.charAt(i-1) !== 'T'){
+    //                 hours.concat(time.charAt(i-1));
+    //                 index--;
+    //             }
+    //         }
+    //         else{
+    //             index--;
+    //         }
+    //     }
+    //     return {hours: hours, minutes: minutes, seconds: seconds}
+    // }
     handleChange = (event) => {
         this.setState({searchQuery: event.target.value});
     }
@@ -52,6 +52,7 @@ export class SearchBar extends Component {
       const query = {
         "value":string
       };
+
 
     axios.post('http://localhost:8080/searchController/search', query)
     .then((data) => {
@@ -68,6 +69,8 @@ export class SearchBar extends Component {
         this.info = data.data
         this.props.addRequests(data.data)
         this.setState({searchQuery: ''})
+
+
         })
         .catch(err => {
         console.error('SearchBar.js: quiery didnt work');

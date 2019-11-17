@@ -7,6 +7,8 @@ var youtube = google.youtube({
    auth: "AIzaSyC2flXo37atInysZLuWt1dFIYGut4MNzeE"
 });
 
+const yehAuth = "AIzaSyC2flXo37atInysZLuWt1dFIYGut4MNzeE"
+const jesseAuth = "AIzaSyA1jby3cRnc690DQ_GbduBCpWLa_ufAgog"
 router.post('/search', function(req,res,next) {
     //const {query} = req.body;
     //const result = "Search Result";

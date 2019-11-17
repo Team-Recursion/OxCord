@@ -22,12 +22,12 @@ export class SearchPage extends Component {
         
         var newRoom = false;
 
-        if(localStorage.getItem('pinInLocalStorage') == 'undefined'){
+        if(localStorage.getItem('pinInLocalStorage') === undefined){
             console.log('pin set to history');
             pin = this.props.history.location.data;
         }
         else{
-            if(pin == undefined){
+            if(pin === undefined){
                 console.log('pin undefined and set to local value');
                 pin = localStorage.getItem('pinInLocalStorage')
             }
@@ -71,7 +71,7 @@ export class SearchPage extends Component {
             //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
             
             
-            if(data.pin == this.state.pin){
+            if(data.pin === this.state.pin){
                 this.setState({ songs: [...this.state.songs, data.song] })
                 console.log(this.state.songs)
                 //console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
@@ -83,7 +83,7 @@ export class SearchPage extends Component {
             console.log('request made from user at pin', data.pin);
             console.log('local pin', this.state.pin);
     
-            if(data.pin == this.state.pin){
+            if(data.pin === this.state.pin){
               this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
             //   localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
             }
