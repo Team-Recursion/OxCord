@@ -14,10 +14,13 @@ export class Room extends Component {
       songs: [
       ],
       pin: '',
-      requests: []
+      requests: [],
+      flag: false,
+      playerObject: null
   }
 
   componentDidMount() {
+    this.playerRef = React.createRef();
     socket = io('http://localhost:8080/communication')
 
     window.addEventListener('beforeunload', this.handleClose);
@@ -157,21 +160,20 @@ export class Room extends Component {
   }
   
   _onReady(event) {
-    // access to player in all event handlers via event.target
-    
-    event.target.playVideo();
     const player = event.target;
+    player.playVideo();
+    this.state.playerObject = player;
   }
 
   onEnd(event) {
     const player = event.target;
     if(this.state.songs.length){
       console.log('onend', this.state.songs[0].videoId);
+
       this.setState({currentVid: this.state.songs[0].title});
       player.cueVideoById(this.state.songs[0].videoId);
       this.deleteSong(this.state.songs[0].videoId);
       player.playVideo();
-      //Emit socket event to room that the queue has updated (update-queue-up)
     }
   }
 
@@ -199,10 +201,7 @@ export class Room extends Component {
       height: '500',
       width: '600',
       playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1,
-        enablejsapi: 1,
-        // playlist: "qpbooQFvXZs, epHZWUEsU5o",
-        autohide:1
+        autoplay: 1
       }
     };
     return (
@@ -213,8 +212,8 @@ export class Room extends Component {
           <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
           <p>Song Requests</p>
           <SongRequests requests={this.state.requests} addSong={this.addSong}/>
-          <YouTube
-            videoId={'M7lc1UVf-VE'}
+          <YouTube 
+            videoId={'AjWfY7SnMBI'}
             opts={opts}
             onReady={this._onReady.bind(this)}
             onEnd={this.onEnd.bind(this)}
