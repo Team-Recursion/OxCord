@@ -19,13 +19,13 @@ router.post("/createRoom", async(req, res) => {
         }
     }
 
-    res.send(resStatus).end();
+    res.sendStatus(resStatus).end();
 });
 
 router.delete("/deleteRoom", (req, res) => {
     console.log("Inside DELETE/deleteRoom");
     const pin = req.body.pin;
-    //console.log(req.body.pin);
+    console.log(req.body.pin);
     let resStatus = 500;
     if(pin) {
         try{
@@ -41,20 +41,23 @@ router.delete("/deleteRoom", (req, res) => {
         console.log("Something wrong with pin");
     }
 
-    res.send(resStatus).end();
+    res.sendStatus(resStatus).end();
 });
 
-router.get("/doesRoomExist", (req, res) => {
+router.get("/doesRoomExist", async (req, res) => {
     console.log("Inside GET/doesRoomExist");
-    const pin = req.body.pin;
+    console.log(req.query);
+    const pin = req.query.pin;
     let resString = "API was hit";
     let exists = false;
     if(pin) {
         try {
-            const dbCall = dbAPI.doesRoomExist(pin);
-                
+            const dbCall = await dbAPI.doesRoomExist(pin);
+            console.log("route result: " + dbCall);
             if(dbCall) {
                 exists = true;
+            } else {
+                exists = false;
             }
         } catch (e) {   
             resString = "DB get error";
@@ -66,6 +69,7 @@ router.get("/doesRoomExist", (req, res) => {
         exists: exists
     }
 
+    console.log(JSON.stringify(resultJSON));
     res.send(resultJSON).end();
 });
 

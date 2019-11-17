@@ -34,6 +34,11 @@ export class Room extends Component {
       console.log('pin set to history');
       pin = this.props.history.location.data;
       
+      // if(pin == undefined) {
+      //   this.props.history.push({
+      //     pathname: '/'
+      //   }); 
+      // }
       
     } else {   
       if(pin == undefined){
@@ -55,7 +60,9 @@ export class Room extends Component {
       localStorage.removeItem('songsInLocalStorage');
       songs = []
     }
-    socket.emit('host-join-up', { pin: pin });
+    socket.emit('host-join-up', { pin: pin }, function(data) {
+      
+    });
 
     this.setState({ 
       pin: pin,
@@ -89,19 +96,23 @@ export class Room extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('beforeunload', this.handleClose);
+    window.removeEventListener('onbeforeunload', this.handleClose);
     console.log("PIN in room: " + this.state.pin);
     const query = {
       data: {pin: this.state.pin}
     }
-    axios.delete("http://localhost:8080/dbController/deleteRoom", query);
+    axios.delete("http://localhost:8080/dbController/deleteRoom", query)
+      .then(data => {
+        console.log(data.statusCode);
+      });
   }
 
-  handleClose(e) {  
-    const query = {
-      data: {pin: this.state.pin}
+  handleClose = (e) =>  {  
+    const data = {
+      pin: this.state.pin
     }
-    axios.delete("http://localhost:8080/dbController/deleteRoom", query);
+
+    socket.emit('delete-room', data);
   }
 
   addRequests = (songs) => {
@@ -162,6 +173,25 @@ export class Room extends Component {
       player.playVideo();
       //Emit socket event to room that the queue has updated (update-queue-up)
     }
+  }
+
+  checkIfRoomExists() {
+    const query = {
+      data: {pin: this.state.pin}
+    }
+
+    axios.get("http://localhost:8080/dbController/doesRoomExist", query)
+      .then(res => {
+        const exists = res.data.exists;
+        if(exists){
+          return true;
+        }
+        return false;
+      })
+      .catch(err => {
+        console.log(err);
+        return false;
+      })
   }
 
   render() {

@@ -1,8 +1,8 @@
 const db = require('./dynamodbConfig');
-
 const pinTableName = 'Rooms';
 
-async function createRoom(pin) {
+
+function createRoom(pin) {
     console.log("DB call createRoom");
 
     const params = {
@@ -58,22 +58,32 @@ function deleteRoom(pin) {
 }
 
 async function doesRoomExist(pin) {
+    console.log("DB call doesRoomExist");
+    var numberPin = parseInt(pin,10);
     const params = {
         TableName: pinTableName,
         Key: {
-            "PIN": pin
-        }
+            "PIN": numberPin
+        },
+        ProjectionExpression: "PIN",
+        ConsistentRead: true,
     }
 
-    db.docClient.get(params, function(err, data) {
+    let result = await db.docClient.get(params, function(err, data) {
         if(err) {
-            console.log("Room does not exist: ", JSON.stringify(err,null));
-            return false;
+            console.log("Error: ", JSON.stringify(err,null));
         } else {
-            console.log(`Room ${pin} exists`);
-            return true;
+            //console.log("Get succeeded: ", JSON.stringify(data,null,2));
         }
-    });
+    }).promise();
+
+    if(result.Item !== undefined && result.Item !== null) {
+        console.log(`Room ${pin} exists`);
+        return true;
+    } else {
+        console.log(`Room ${pin} does not exist`);
+        return false;
+    }
 }
 
 module.exports = {
