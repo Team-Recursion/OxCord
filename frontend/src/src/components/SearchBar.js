@@ -20,7 +20,7 @@ export class SearchBar extends Component {
       };
 
       axios.post('http://localhost:8080/searchController/search', query)
-        .then((data) => {
+        .then(data => {
           //console.log('SeachBar.js: responde from yt', data);
           
           this.props.addRequests(data.data)

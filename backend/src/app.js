@@ -1,7 +1,7 @@
 var express = require('express'); // Express web server framework
 var bodyParser = require('body-parser');
-var testAPIRouter = require("./controllers/testAPI");
 var searchControllerRouter = require("./controllers/searchController");
+var dbController = require("./controllers/dbController");
 var cors = require("cors");
 
 var app = express();
@@ -20,8 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
 app.use(bodyParser.json())
-
-app.use("/testAPI", testAPIRouter);
+app.use("/dbController", dbController);
 app.use("/searchController", searchControllerRouter);
 
 socketController.startCommunication(io);

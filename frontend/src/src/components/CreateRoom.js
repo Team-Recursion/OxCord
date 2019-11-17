@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
+import axios from 'axios';
 import './Room.css';
 
 export class CreateRoom extends Component {
@@ -15,6 +16,12 @@ export class CreateRoom extends Component {
                   onClick={() => { 
                     let newPin = Math.floor(Math.random() * 9000, 10000)
                     this.setState({ pin: newPin })
+                    
+                    //let stringPin = parseInt(newPin, 10);
+                    const query = {
+                      pin: newPin
+                    }
+                    axios.post("http://localhost:8080/dbController/createRoom", query);
           
                     let path = '/room';
                     history.push({
@@ -31,7 +38,6 @@ export class CreateRoom extends Component {
         )
     }
 }
-
 
 const buttonStyle = {
     display: 'inline-block',

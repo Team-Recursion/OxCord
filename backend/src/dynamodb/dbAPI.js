@@ -12,17 +12,25 @@ async function createRoom(pin) {
         }
     };
 
-    db.docClient.put(params, function(err, data) {
+    let result = db.docClient.put(params, function(err, data) {
         if(err) {
-            console.err("Adding room failed: ", JSON.stringify(err,null));
+            console.log("Adding room failed: ", JSON.stringify(err,null));
+            return {
+                statusCode: 400
+            }
         } else {
             console.log("Added room to table", JSON.stringify(data, null, 2));
+            return {
+                statusCode: 200
+            }
         }
     
     });
+
+    return result;
 }
 
-async function deleteRoom(pin) {
+function deleteRoom(pin) {
     console.log("DB call deleteRoom");
 
     const params = {
@@ -32,13 +40,21 @@ async function deleteRoom(pin) {
         }
     }
 
-    db.docClient.delete(params, function(err, data) {
+    let result = db.docClient.delete(params, function(err, data) {
         if(err) {
-            console.error("Unable to delete item: ", JSON.stringify(err,null));
+            console.log("Unable to delete item: ", JSON.stringify(err,null));
+            return {
+                statusCode: 400
+            }
         } else {
             console.log(`Deletion of room ${pin} successful`);
+            return {
+                statusCode: 200
+            }
         }
     });
+
+    return result;
 }
 
 async function doesRoomExist(pin) {
@@ -51,7 +67,7 @@ async function doesRoomExist(pin) {
 
     db.docClient.get(params, function(err, data) {
         if(err) {
-            console.error("Room does not exist: ", JSON.stringify(err,null));
+            console.log("Room does not exist: ", JSON.stringify(err,null));
             return false;
         } else {
             console.log(`Room ${pin} exists`);
@@ -62,5 +78,6 @@ async function doesRoomExist(pin) {
 
 module.exports = {
     createRoom: createRoom,
-    deleteRoom: deleteRoom
+    deleteRoom: deleteRoom,
+    doesRoomExist: doesRoomExist
 }
