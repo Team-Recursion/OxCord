@@ -11,44 +11,28 @@ import '../Room.css';
 
 var socket = null;
 
-
 export class Room extends Component {
 
   state = {
-      songs: [
-      ],
+      songs: [],
       pin: '',
       requests: [],
       flag: true
   }
-  callAPI() {
-    fetch("http://localhost:8080/testAPI")
-      .then(res => res.text())
-      .then(res => this.setState({apiResponse: res}))
-      .catch(console.log);
-  }
+  
   componentDidMount() {
     socket = io('http://localhost:8080/communication')
-
     window.addEventListener('beforeunload', this.handleClose);
     
-    //this.generatePin();
     var pin = this.props.history.location.data;
-    var songs = []
+    var songs = [];
     console.log('pin from history', pin);
     console.log('pin in local', localStorage.getItem('pinInLocalStorage'));
     var newRoom = false;
 
     if(localStorage.getItem('pinInLocalStorage') == undefined){
       console.log('pin set to history');
-      pin = this.props.history.location.data;
-      
-      // if(pin == undefined) {
-      //   this.props.history.push({
-      //     pathname: '/'
-      //   }); 
-      // }
-      
+      pin = this.props.history.location.data;      
     } else {   
       if(pin == undefined){
         console.log('pin undefined and set to local value');
@@ -60,53 +44,50 @@ export class Room extends Component {
       }
     }
 
-    //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
+    if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
+      console.log('songs set to local');
+      songs = JSON.parse(localStorage.getItem('songsInLocalStorage'))
+    } else {
+      console.log('songs set to nothing');
+      localStorage.removeItem('songsInLocalStorage');
+      songs = []
+      //localStorage.setItem('songsInLocalStorage', JSON.stringify(songs))
+    }
+     
+    socket.emit('host-join-up', { pin: pin });
 
-      if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
-          console.log('songs set to local');
-          songs = JSON.parse(localStorage.getItem('songsInLocalStorage'))
+    this.setState({ 
+      pin: pin,
+      songs: songs,
+      currentVid: ''
+    });
+
+    var numberPin = parseInt(pin,10);
+    const query = {
+      pin: numberPin
+    }
+    axios.post("http://localhost:8080/dbController/createRoom", query);
+    localStorage.setItem('pinInLocalStorage', pin);
+    //Adding socket event handlers
+    socket.on('user-join-down', data => {
+      //Add 1 to a count of users currently in room
+      //Possibly update db value
+    });
+
+    socket.on('add-song-down', data => {
+      //Add song to state array
+      const player = this.state.playerObject;
+      this.setState({ songs: [...this.state.songs, data.song] })
+      if(this.state.flag) {
+        this.setState({currentVid: this.state.songs[0].title});
+        localStorage.setItem('currentVid', this.state.songs[0].title);
+        localStorage.setItem('currentVidId', this.state.songs[0].videoId);
+        player.cueVideoById(this.state.songs[0].videoId);
+        this.updateQueue(this.state.songs[0].videoId);
+        player.playVideo();
+        this.setState({flag: false});
       }
-      else{
-          console.log('songs set to nothing');
-          localStorage.removeItem('songsInLocalStorage');
-          songs = []
-          //localStorage.setItem('songsInLocalStorage', JSON.stringify(songs))
-      }
-      socket.emit('host-join-up', { pin: pin });
-
-      this.setState({ 
-        pin: pin,
-        songs: songs,
-        currentVid: ''
-      });
-
-      var numberPin = parseInt(pin,10);
-      const query = {
-        pin: numberPin
-      }
-      axios.post("http://localhost:8080/dbController/createRoom", query);
-
-      localStorage.setItem('pinInLocalStorage', pin);
-      //Adding socket event handlers
-      socket.on('user-join-down', data => {
-        //Add 1 to a count of users currently in room
-        //Possibly update db value
-      });
-
-      socket.on('add-song-down', data => {
-        //Add song to state array
-        const player = this.state.playerObject;
-        this.setState({ songs: [...this.state.songs, data.song] })
-        if(this.state.flag) {
-          this.setState({currentVid: this.state.songs[0].title});
-          localStorage.setItem('currentVid', this.state.songs[0].title);
-          localStorage.setItem('currentVidId', this.state.songs[0].videoId);
-          player.cueVideoById(this.state.songs[0].videoId);
-          this.updateQueue(this.state.songs[0].videoId);
-          player.playVideo();
-          this.setState({flag: false});
-        }
-        localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+      localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
         
     });
 
@@ -114,13 +95,11 @@ export class Room extends Component {
       console.log('user-request-queue-down');
       console.log(data.pin);
 
-      //const currentVid = this.state.currentVid;
-      
-      socket.emit('host-response-queue-up', {
-                                            songs: JSON.parse(localStorage.getItem('songsInLocalStorage')), 
-                                            pin: localStorage.getItem('pinInLocalStorage'),
-                                            currentSong: localStorage.getItem('currentVid')})
-                                            
+      socket.emit('host-response-queue-up', { 
+        songs: JSON.parse(localStorage.getItem('songsInLocalStorage')), 
+        pin: localStorage.getItem('pinInLocalStorage'),
+        currentSong: localStorage.getItem('currentVid')
+      });                                    
     });
   }
 
@@ -226,6 +205,7 @@ export class Room extends Component {
       currentVid: ""
     });
     localStorage.setItem('currentVid', '');
+    localStorage.setItem('currentVidId', '');
   }
 
   onEnd(event) {
@@ -244,25 +224,30 @@ export class Room extends Component {
     }
   }
 
-  // checkIfRoomExists() {
-  //   var numberPin = 
-  //   const query = {
-  //     data: {pin: this.state.pin}
-  //   }
+  onError(event) {
+    this.state.flag = true;
+    console.log('onError');
+    const player = event.target;
 
-  //   axios.get("http://localhost:8080/dbController/doesRoomExist", query)
-  //     .then(res => {
-  //       const exists = res.data.exists;
-  //       if(exists){
-  //         return true;
-  //       }
-  //       return false;
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       return false;
-  //     })
-  // }
+    console.log(localStorage.getItem('currentVidId'));
+    
+    if(localStorage.getItem('currentVidId') !== null && localStorage.getItem('currentVidId') !== '' ) {
+      this.state.flag = false;
+      const reloadId = localStorage.getItem('currentVidId');
+      const videoTitle = localStorage.getItem('currentVid');
+      this.setState({
+        currentVid: videoTitle
+      });
+      player.cueVideoById(reloadId);
+      player.playVideo();
+    } else {
+      console.log("Error hit and no videoID from previous session, load default video");
+      this.state.flag = true;
+      player.cueVideoById('AjWfY7SnMBI');
+      player.playVideo();
+    }
+    player.playVideo();
+  }
 
   render() {
     const opts = {
@@ -294,6 +279,7 @@ export class Room extends Component {
           opts={opts}
           onReady={this._onReady.bind(this)}
           onEnd={this.onEnd.bind(this)}
+          onError={this.onError.bind(this)}
         />
         <div className="logo-container">
           {<img src={logo} className="logo-shape"/>}

@@ -22,6 +22,7 @@ export class CreateRoom extends Component {
                       pin: newPin
                     }
                     axios.post("http://localhost:8080/dbController/createRoom", query);
+                    localStorage.clear();
           
                     let path = '/room';
                     history.push({
