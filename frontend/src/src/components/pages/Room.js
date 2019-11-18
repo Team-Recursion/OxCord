@@ -54,6 +54,7 @@ export class Room extends Component {
       if(pin == undefined){
         console.log('pin undefined and set to local value');
         pin = localStorage.getItem('pinInLocalStorage')
+        newRoom = false;
       } else {
         newRoom = true
         console.log('local not null and pin not undefined so set to pin');
@@ -61,6 +62,7 @@ export class Room extends Component {
     }
 
     //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
+    console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
 
       if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
           console.log('songs set to local');
