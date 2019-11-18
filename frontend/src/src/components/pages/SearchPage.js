@@ -85,11 +85,16 @@ export class SearchPage extends Component {
           });
 
         socket.on('update-queue-down', data => {
-            //Update SearchRoom's queue
+            console.log('update-queue-down hit');
+            this.state.currentVid = this.state.songs[0].title;
+            this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
+            localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
         });
-        socket.on('test', data => {
-            alert("test");
-          })
+        
+        socket.on('no-current-song-down', data => {
+            console.log('no-current-song-down hit');
+            this.setState({currentVid: ''});
+        })
         console.log(this.state);
         
         this.fetchSongs()
@@ -103,8 +108,13 @@ export class SearchPage extends Component {
 
         socket.on('host-response-queue-down', (data) => {
             console.log('song info received');
-            this.setState({songs: data.songs})
-            localStorage.setItem('songsInLocalStorage', JSON.stringify(data.songs))
+            if(data.songs) {
+                this.setState({songs: data.songs})
+                this.setState({currentVid: data.currentSong});
+                localStorage.setItem('songsInLocalStorage', JSON.stringify(data.songs))
+            } else {
+                this.setState({currentVid: ""});
+            }
         });
     }
 
