@@ -85,7 +85,7 @@ export class JoinPage extends Component {
                             className="button"
                             type="submit"
                             name="title"
-                            value="Join!"
+                            value= "Join!"
                             placeholder="Search"
                         />
                     </form>
