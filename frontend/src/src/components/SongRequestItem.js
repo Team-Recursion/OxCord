@@ -11,7 +11,6 @@ export class SongRequestItem extends Component {
                         alt= {title}
                     />
                 {title}
-                {description}
                 <button onClick={this.props.addSong.bind(this, this.props.song)} style={buttonStyle}>+</button>
                 </p>
             </div>

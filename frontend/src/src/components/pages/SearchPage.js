@@ -4,8 +4,22 @@ import io from 'socket.io-client';
 import SearchBar from '../SearchBar';
 import Songs from '../Songs';
 import SongRequests from '../SongRequests';
+import './SearchPage.css';
+import Particles from 'react-particles-js';
 
 var socket = null
+
+const particleOpt = {
+    particles:{
+      number:{
+        value: 150,
+        density: {
+          enable: true,
+          value_area: 800,
+        }
+      }
+    }
+  }
 
 export class SearchPage extends Component {
 
@@ -163,13 +177,24 @@ export class SearchPage extends Component {
 
     render() {
         return (
-            <div className='component-container' >
-    <h1>Room #:{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
-                <SearchBar addRequests={this.addRequests}/>
-                <p>Current Queue</p>
+            <div className ="main-container">
+                <Particles className="particles"
+                    params={particleOpt}
+                />
+                <header className="header">
+                    <h1>Room #{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
+                </header>
+                <div className="searchBar-container">
+                    <SearchBar addRequests={this.addRequests}/>
+                </div>
+                <div className="queue-container2">
+                    <p className = "queuePrompt">Current Queue</p>
                     <Songs songs={this.state.songs}/>
-                <p>Search Results</p>
-                <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+                </div>
+                <div className="song-container2">
+                    <p className = "songPrompt">Search Results</p>
+                    <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+                </div>
             <div>
             </div> 
                 {/* <button onClick={this.handleGo} className='btn-enter' >Enter</button> */}

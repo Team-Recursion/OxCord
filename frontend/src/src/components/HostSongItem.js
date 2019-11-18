@@ -12,7 +12,6 @@ export class HostSongItem extends Component {
                         alt= {title}
                     />
                 {title}
-                {description}
                 <button onClick={this.props.deleteSong.bind(this, videoId)} style={buttonStyle}>X</button>
                 </p>
             </div>
