@@ -28,7 +28,6 @@ export class Room extends Component {
       .catch(console.log);
   }
   componentDidMount() {
-    localStorage.removeItem('songsInLocalStorage')
     socket = io('http://localhost:8080/communication')
 
     window.addEventListener('beforeunload', this.handleClose);
@@ -62,7 +61,6 @@ export class Room extends Component {
     }
 
     //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
-    console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
 
       if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
           console.log('songs set to local');
@@ -102,6 +100,7 @@ export class Room extends Component {
         if(this.state.flag) {
           this.setState({currentVid: this.state.songs[0].title});
           localStorage.setItem('currentVid', this.state.songs[0].title);
+          localStorage.setItem('currentVidId', this.state.songs[0].videoId);
           player.cueVideoById(this.state.songs[0].videoId);
           this.updateQueue(this.state.songs[0].videoId);
           player.playVideo();
@@ -196,9 +195,23 @@ export class Room extends Component {
   }
   
   _onReady(event) {
+    console.log('onReady');
     const player = event.target;
     player.playVideo();
     this.state.playerObject = player;
+
+    if(localStorage.getItem('currentVidId') != null  ) {
+      this.state.flag = false;
+      const reloadId = localStorage.getItem('currentVidId');
+      const videoTitle = localStorage.getItem('currentVid');
+      this.setState({
+        currentVid: videoTitle
+      });
+      player.cueVideoById(reloadId);
+      player.playVideo();
+    } else {
+      console.log("no id in ls");
+    }
   }
 
   updateQueue = (videoId) => {
@@ -221,6 +234,7 @@ export class Room extends Component {
     if(this.state.songs.length){
       this.setState({currentVid: this.state.songs[0].title});
       localStorage.setItem('currentVid', this.state.songs[0].title);
+      localStorage.setItem('currentVidId', this.state.songs[0].videoId)
       player.cueVideoById(this.state.songs[0].videoId);
       this.updateQueue(this.state.songs[0].videoId);
       player.playVideo();
