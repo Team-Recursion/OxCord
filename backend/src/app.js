@@ -1,26 +1,29 @@
-var http = require('http');
-var express = require('express');
-var app = express();
+var express = require('express'); // Express web server framework
 var bodyParser = require('body-parser');
+var searchControllerRouter = require("./controllers/searchController");
+var dbController = require("./controllers/dbController");
+var cors = require("cors");
 
-app.use(bodyParser.urlencoded({ extended: false}));
-app.use(bodyParser.json());
+var app = express();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+var socketController = require('./controllers/socketController');
+app.use(cors());
+// parse application/x-www-asdform-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
-app.get('/', function(req,res) {
-  res.sendFile('html/index.html', {root: __dirname});
-});
+//never returns causes problems for search calls
 
-app.get('/', function(req,res){
-  res.send('hello world');
-});
+// app.use(function(req,res,next) {
+//     res.header('Access-Control-Allow-Credentials', true);
+// });
 
-app.post('/post', function(req,res) {
-  var q = req.body.user;
-  var a = req.body.password;
-  console.log('User name = ' + q + " , password = " + a);
-  res.end('yes');
-});
+// parse application/json
+app.use(bodyParser.json())
+app.use("/dbController", dbController);
+app.use("/searchController", searchControllerRouter);
 
-app.listen(8080, function() {
-  console.log('Server running on local instance. Port: 8080');
-});
+socketController.startCommunication(io);
+
+console.log('Listening on 8080');
+http.listen(8080);
