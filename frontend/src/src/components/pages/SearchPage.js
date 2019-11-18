@@ -100,7 +100,9 @@ export class SearchPage extends Component {
 
         socket.on('update-queue-down', data => {
             console.log('update-queue-down hit');
-            this.state.currentVid = this.state.songs[0].title;
+            this.setState({
+                currentVid: this.state.songs[0].title
+            });
             this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
             localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
         });
