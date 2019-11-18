@@ -25,8 +25,8 @@
   background-color: grey;
   width: 30.5%;
   height: 89.2%;
-  bottom: 0;
-  left: 39%;
+  bottom: 0%;
+  right: 0%;
   position: absolute;
   border-right: inset;
   border-left: inset;
@@ -37,8 +37,8 @@
   background-color: grey;
   width: 30.5%;
   height: 89.2%;
-  bottom: 0%;
-  right: 0%;
+  bottom: 0;
+  left: 39%;
   position: absolute;
   border-right: inset;
   border-color: darkgray;
@@ -83,4 +83,20 @@
 .logo-shape{
   height: 100%;
   width: 100%;
+}
+
+.song-bounding {
+  position: absolute;
+  bottom: 0%;
+  height: 96%;
+  width: 100%;
+  overflow: auto;
+}
+
+.queue-bounding {
+  position: absolute;
+  bottom: 0%;
+  height: 96%;
+  width: 100%;
+  overflow: auto;
 }

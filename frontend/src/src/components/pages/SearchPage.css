@@ -32,6 +32,7 @@
   border-right: inset;
   border-left: inset;
   border-color: darkgray;
+  overflow: auto;
 }
 
 .queue-container2 {
@@ -43,12 +44,14 @@
   position: absolute;
   border-right: inset;
   border-color: darkgray;
+  overflow: auto;
 }
 
 .songPrompt {
   color: white;
   position: absolute;
   left: 35%;
+  height: 4%;
   border-bottom: inset;
   border-color: darkgray;
 }
