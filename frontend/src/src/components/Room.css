@@ -24,7 +24,7 @@
 .song-container {
   background-color: grey;
   width: 30.5%;
-  height: 89.2%;
+  height: 89%;
   bottom: 0%;
   right: 0%;
   position: absolute;
@@ -36,7 +36,7 @@
 .queue-container {
   background-color: grey;
   width: 30.5%;
-  height: 89.2%;
+  height: 89%;
   bottom: 0;
   left: 39%;
   position: absolute;
@@ -78,6 +78,8 @@
   left: 0%;
   height: 17%;
   width: 39%;
+  border: inset;
+  border-color: darkgray;
 }
 
 .logo-shape{
