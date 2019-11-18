@@ -80,6 +80,11 @@ module.exports = {
                 //Emit down event to room
                 console.log("update-queue-up");
             });
+
+            socket.on('leave-room', function(data) {
+                console.log(`User has left room ${data.pin}`);
+                socket.leave(data.pin);
+            });
         })
     }
 }

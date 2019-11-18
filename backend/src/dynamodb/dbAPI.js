@@ -5,10 +5,12 @@ const pinTableName = 'Rooms';
 function createRoom(pin) {
     console.log("DB call createRoom");
 
+    var numberPin = parseInt(pin,10);
+
     const params = {
         TableName: pinTableName,
         Item: {
-            "PIN": pin
+            "PIN": numberPin
         }
     };
 
@@ -33,10 +35,12 @@ function createRoom(pin) {
 function deleteRoom(pin) {
     console.log("DB call deleteRoom");
 
+    var numberPin = parseInt(pin,10);
+
     const params = {
         TableName: pinTableName,
         Key: {
-            "PIN": pin
+            "PIN": numberPin
         }
     }
 

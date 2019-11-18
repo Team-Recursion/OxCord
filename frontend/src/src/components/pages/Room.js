@@ -56,6 +56,8 @@ export class Room extends Component {
       }
     }
 
+    
+
     //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
 
       if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
@@ -76,6 +78,12 @@ export class Room extends Component {
         currentVid: ''
       });
 
+      var numberPin = parseInt(pin,10);
+      const query = {
+        pin: numberPin
+      }
+      axios.post("http://localhost:8080/dbController/createRoom", query);
+
       localStorage.setItem('pinInLocalStorage', pin);
       //Adding socket event handlers
       socket.on('user-join-down', data => {
@@ -95,12 +103,13 @@ export class Room extends Component {
         // }
           this.setState({ songs: [...this.state.songs, data.song] })
           localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-    });
+        });
+
     socket.on('remove-song-down', data =>{
         this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
         localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-    
     });
+
     socket.on('user-request-queue-down', function(data){
       console.log('user-request-queue-down in host');
       socket.emit('host-response-queue-up', {pin: localStorage.getItem('pinInLocalStorage')})
@@ -110,21 +119,28 @@ export class Room extends Component {
   componentWillUnmount() {
     window.removeEventListener('onbeforeunload', this.handleClose);
     console.log("PIN in room: " + this.state.pin);
+    var numberPin = parseInt(this.state.pin);
     const query = {
-      data: {pin: this.state.pin}
+      data: {pin: numberPin}
     }
     axios.delete("http://localhost:8080/dbController/deleteRoom", query)
-      .then(data => {
-        console.log(data.statusCode);
-      });
+    .then(data => {
+      console.log(data.statusCode);
+    });
+    const data = {
+      pin: this.state.pin
+    }  
+    socket.emit('leave-room', data);
   }
 
   handleClose = (e) =>  {  
+    var numberPin = parseInt(this.state.pin, 10);
     const data = {
       pin: this.state.pin
     }
 
     socket.emit('delete-room', data);
+    socket.emit('leave-room', data);
   }
 
   addRequests = (songs) => {
@@ -187,24 +203,25 @@ export class Room extends Component {
     }
   }
 
-  checkIfRoomExists() {
-    const query = {
-      data: {pin: this.state.pin}
-    }
+  // checkIfRoomExists() {
+  //   var numberPin = 
+  //   const query = {
+  //     data: {pin: this.state.pin}
+  //   }
 
-    axios.get("http://localhost:8080/dbController/doesRoomExist", query)
-      .then(res => {
-        const exists = res.data.exists;
-        if(exists){
-          return true;
-        }
-        return false;
-      })
-      .catch(err => {
-        console.log(err);
-        return false;
-      })
-  }
+  //   axios.get("http://localhost:8080/dbController/doesRoomExist", query)
+  //     .then(res => {
+  //       const exists = res.data.exists;
+  //       if(exists){
+  //         return true;
+  //       }
+  //       return false;
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       return false;
+  //     })
+  // }
 
   render() {
     const opts = {

@@ -37,6 +37,14 @@ export class SearchBar extends Component {
             else{
                 index--;
             }
+            if(seconds.length == 1){
+            }
+            if(minutes.length == 1){
+
+            }
+            if(hours.length == 1){
+
+            }
         }
         return {hours: hours, minutes: minutes, seconds: seconds}
     }
