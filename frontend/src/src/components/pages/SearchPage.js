@@ -81,10 +81,14 @@ export class SearchPage extends Component {
         socket.on('remove-song-down', data =>{
             //console.log('request made from user at pin', data.pin);
             //console.log('local pin', this.state.pin);
-    
+            if(data.flag){
               this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
             //   localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-            
+            }
+            else{
+                this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
+                this.setState({videoId: this.state.songs[0].title})
+            }
           });
 
         socket.on('update-queue-down', data => {
@@ -95,7 +99,7 @@ export class SearchPage extends Component {
           })
         console.log('state for searchpage', this.state);
         
-        this.fetchSongs()
+        //this.fetchSongs().bind(this)
     };
 
     fetchSongs = () => {
@@ -108,7 +112,7 @@ export class SearchPage extends Component {
             console.log('song info received');
             console.log(data);
             this.setState({pin: data.pin})
-            console.log(this.state.pin);
+            //console.log(this.state.pin);
             
             //localStorage.setItem('songsInLocalStorage', JSON.stringify(data.songs))
         });

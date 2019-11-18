@@ -85,9 +85,16 @@ export class Room extends Component {
 
       socket.on('add-song-down', data => {
         //Add song to state array
-          
-        this.setState({ songs: [...this.state.songs, data.song] })
-        localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+
+        // if(this.state.songs.length){
+        //   this.setState({ songs: [...this.state.songs, data.song] })
+        //   localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+        // }
+        // else{
+        //   this.onEnd()
+        // }
+          this.setState({ songs: [...this.state.songs, data.song] })
+          localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
     });
     socket.on('remove-song-down', data =>{
         this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
@@ -157,8 +164,10 @@ export class Room extends Component {
     }
   }
 
-  deleteSong = (videoId) => {
-    socket.emit('remove-song-up', {videoId: videoId, pin: this.state.pin});
+  deleteSong = (info) => {
+    socket.emit('remove-song-up', {videoId: info.videoId, 
+                                  pin: this.state.pin,
+                                  flag: info.flag});
   }
   
   _onReady(event) {
@@ -171,10 +180,9 @@ export class Room extends Component {
     const player = event.target;
     if(this.state.songs.length){
       console.log('onend', this.state.songs[0].videoId);
-
       this.setState({currentVid: this.state.songs[0].title});
       player.cueVideoById(this.state.songs[0].videoId);
-      this.deleteSong(this.state.songs[0].videoId);
+      this.deleteSong({videoId: this.state.songs[0].videoId, flag: false});
       player.playVideo();
     }
   }

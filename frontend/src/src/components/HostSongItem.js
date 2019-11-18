@@ -13,7 +13,7 @@ export class HostSongItem extends Component {
                     />
                 {title}
                 {description}
-                <button onClick={this.props.deleteSong.bind(this, videoId)} style={buttonStyle}>X</button>
+                <button onClick={this.props.deleteSong.bind(this, {videoId: videoId, flag: true})} style={buttonStyle}>X</button>
                 </p>
             </div>
         )
