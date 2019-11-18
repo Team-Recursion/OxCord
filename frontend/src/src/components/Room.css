@@ -10,6 +10,8 @@
 }
 
 .header {
+  position: absolute;
+  top: 0%;
   background-color: grey;
   color: white;
   position: fixed;
