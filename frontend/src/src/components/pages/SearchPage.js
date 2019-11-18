@@ -94,6 +94,7 @@ export class SearchPage extends Component {
         socket.on('no-current-song-down', data => {
             console.log('no-current-song-down hit');
             this.setState({currentVid: ''});
+            localStorage.setItem('currentVid', '')
         })
         console.log(this.state);
         

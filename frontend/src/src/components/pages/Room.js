@@ -17,7 +17,7 @@ export class Room extends Component {
       ],
       pin: '',
       requests: [],
-      flag: false
+      flag: true
   }
   callAPI() {
     fetch("http://localhost:8080/testAPI")
@@ -57,8 +57,6 @@ export class Room extends Component {
         console.log('local not null and pin not undefined so set to pin');
       }
     }
-
-    
 
     //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
 
@@ -103,6 +101,7 @@ export class Room extends Component {
           player.cueVideoById(this.state.songs[0].videoId);
           this.updateQueue(this.state.songs[0].videoId);
           player.playVideo();
+          this.setState({flag: false});
         }
         localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
         
@@ -209,6 +208,7 @@ export class Room extends Component {
     this.setState({
       currentVid: ""
     });
+    localStorage.setItem('currentVid', '');
   }
 
   onEnd(event) {
@@ -251,7 +251,8 @@ export class Room extends Component {
       height: '500',
       width: '600',
       playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
+        autoplay: 1,
+        rel: 0
       }
     };
     return (
