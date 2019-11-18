@@ -100,7 +100,7 @@ export class SearchBar extends Component {
                     <input
                         type="text"
                         name="textBox"
-                        style={{ flex: '10', padding: '5px' }}
+                        style={{ flex: '10', padding: '8px' }}
                         placeholder="Enter Song Request"
                         value={this.state.searchQuery}
                         onChange={this.handleChange}
@@ -109,6 +109,7 @@ export class SearchBar extends Component {
                         type="submit"
                         name="title"
                         placeholder="Search"
+                        value="Search"
                         style={buttonStyle}
 
                     />
@@ -124,7 +125,8 @@ const buttonStyle = {
     background: '#555',
     color: '#fff',
     paadding: '7px 20px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    width:'10%'
 }
 
 export default SearchBar

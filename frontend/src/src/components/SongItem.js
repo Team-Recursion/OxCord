@@ -12,7 +12,7 @@ export class SongItem extends Component {
                         alt= {title}
                     />
                 {title}
-                {description}</p>
+                </p>
             </div>
         )
     }

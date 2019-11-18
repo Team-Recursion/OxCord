@@ -5,10 +5,12 @@ import YouTube from 'react-youtube';
 import io from 'socket.io-client';
 import SongRequests from '../SongRequests';
 import { SlowBuffer } from 'buffer';
-
+import logo from './oxImage.jpg';
 import axios from 'axios';
+import '../Room.css';
 
 var socket = null;
+
 
 export class Room extends Component {
 
@@ -248,27 +250,38 @@ export class Room extends Component {
 
   render() {
     const opts = {
-      height: '500',
-      width: '600',
+      height: '600',
       playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 1,
         rel: 0
       }
     };
     return (
-      <div>
-        <h1>Room #:{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
+      <div className="main-container">
+        <header className="header">
+          <h1>Room #{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
+        </header>
+        <div className="searchBar-container">
           <SearchBar addRequests={this.addRequests}/>
-          <p>Current Queue</p>
+        </div>
+        <div className="queue-container">
+          <p className = "queuePrompt">Current Queue</p>
           <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
-          <p>Song Requests</p>
+        </div>
+        <div className = "song-container">
+          <p className = "songPrompt">Search Results</p>
           <SongRequests requests={this.state.requests} addSong={this.addSong}/>
-          <YouTube 
-            videoId={'AjWfY7SnMBI'}
-            opts={opts}
-            onReady={this._onReady.bind(this)}
-            onEnd={this.onEnd.bind(this)}
-          />
+        </div>
+        <YouTube 
+          className="player"
+          videoId={'AjWfY7SnMBI'}
+          opts={opts}
+          onReady={this._onReady.bind(this)}
+          onEnd={this.onEnd.bind(this)}
+        />
+        <div className="logo-container">
+          {<img src={logo} className="logo-shape"/>}
+        </div>
       </div>
     );
   }
