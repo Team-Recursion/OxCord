@@ -10,7 +10,7 @@ export class CreateRoom extends Component {
             <div>
               <Route render={({ history}) => (
                 <button
-                  type='button'
+                  // type='button'
                   className='button'
                   style={buttonStyle}
                   onClick={() => { 
