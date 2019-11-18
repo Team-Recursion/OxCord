@@ -17,6 +17,7 @@ export class Room extends Component {
       ],
       pin: '',
       requests: [],
+      flag: false
   }
   callAPI() {
     fetch("http://localhost:8080/testAPI")
@@ -111,8 +112,16 @@ export class Room extends Component {
     });
 
     socket.on('user-request-queue-down', function(data){
-      console.log('user-request-queue-down in host');
-      socket.emit('host-response-queue-up', {pin: localStorage.getItem('pinInLocalStorage')})
+      console.log('user-request-queue-down');
+      console.log(data.pin);
+
+      //const currentVid = this.state.currentVid;
+      
+      socket.emit('host-response-queue-up', {
+                                            songs: JSON.parse(localStorage.getItem('songsInLocalStorage')), 
+                                            pin: localStorage.getItem('pinInLocalStorage'),
+                                            currentSong: localStorage.getItem('currentVid')})
+                                            
     });
   }
 
@@ -180,10 +189,11 @@ export class Room extends Component {
     }
   }
 
-  deleteSong = (info) => {
-    socket.emit('remove-song-up', {videoId: info.videoId, 
-                                  pin: this.state.pin,
-                                  flag: info.flag});
+  deleteSong = (videoId) => {
+    socket.emit('remove-song-up', {videoId: videoId, pin: this.state.pin});
+    this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== videoId)] });
+    localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+
   }
   
   _onReady(event) {
@@ -192,14 +202,31 @@ export class Room extends Component {
     this.state.playerObject = player;
   }
 
+  updateQueue = (videoId) => {
+    socket.emit('update-queue-up', {videoId: videoId, pin: this.state.pin});
+    this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== videoId)] });
+    localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+  }
+
+  setCurrentlyPlayingToEmptyString() {
+    socket.emit('no-current-song', {pin: this.state.pin});
+    this.setState({
+      currentVid: ""
+    });
+  }
+
   onEnd(event) {
+    console.log('onend');
     const player = event.target;
     if(this.state.songs.length){
       console.log('onend', this.state.songs[0].videoId);
-      this.setState({currentVid: this.state.songs[0].title});
+      localStorage.setItem('currentVid', this.state.songs[0].title);
       player.cueVideoById(this.state.songs[0].videoId);
-      this.deleteSong({videoId: this.state.songs[0].videoId, flag: false});
+      this.updateQueue(this.state.songs[0].videoId);
       player.playVideo();
+    } else {
+      this.setCurrentlyPlayingToEmptyString();
+      this.setState({flag: true});
     }
   }
 

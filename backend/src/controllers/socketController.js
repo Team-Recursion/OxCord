@@ -78,13 +78,19 @@ module.exports = {
             //currently not used
             socket.on('update-queue-up', function(data) {
                 //Emit down event to room
-                console.log("update-queue-up");
+                console.log("update-queue-up to room " + data.pin);
+                comms.in(`${data.pin}`).emit('update-queue-down', data);
             });
 
             socket.on('leave-room', function(data) {
                 console.log(`User has left room ${data.pin}`);
                 socket.leave(data.pin);
             });
+
+            socket.on('no-current-song', data => {
+                console.log('no-current-song-up');
+                comms.in(`${data.pin}`).emit('no-current-song-down');
+            })
         })
     }
 }
