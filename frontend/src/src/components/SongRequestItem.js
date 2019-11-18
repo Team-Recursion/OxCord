@@ -1,38 +1,29 @@
 import React, { Component } from 'react'
+import './ItemDesign.css';
 
 export class SongRequestItem extends Component {
     render() {  
         const {title, description, thumbnail} = this.props.song;
         return (
-            <div style={songItemStyle}>
-                <p>
+            <div className="box-container">
+                <div className="thumbnail-container">
                     <img 
+                        className="thumbnail"
                         src={thumbnail} 
                         alt= {title}
                     />
-                {title}
-                <button onClick={this.props.addSong.bind(this, this.props.song)} style={buttonStyle}>+</button>
-                </p>
+                </div>
+                <div className="title-container">
+                    <p className="title-info">
+                        {title}
+                    </p>
+                    <p>
+                        <button onClick={this.props.addSong.bind(this, this.props.song)} className="addButton">+</button>
+                    </p>
+                </div>
             </div>
         )
     }
-}
-
-const buttonStyle = {
-    background: '#00ff00',
-    color: '#fff',
-    border: 'none',
-    padding: '5px 8px',
-    borderRadius: '50%',
-    cursor: 'pointer',
-    float: 'right'
-}
-
-const songItemStyle = {
-    background: '#f4f4f4',
-    padding: '10px',
-    borderBottom: '1px #ccc dotted',
-    textDecoration: 'none'
 }
 
 

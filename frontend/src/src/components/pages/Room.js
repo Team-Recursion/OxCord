@@ -222,13 +222,17 @@ export class Room extends Component {
         <div className="searchBar-container">
           <SearchBar addRequests={this.addRequests}/>
         </div>
-        <div className="queue-container">
-          <p className = "queuePrompt">Current Queue</p>
-          <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
-        </div>
         <div className = "song-container">
           <p className = "songPrompt">Search Results</p>
-          <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+          <div className="song-bounding">
+            <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+          </div>
+        </div>
+        <div className="queue-container">
+          <p className = "queuePrompt">Current Queue</p>
+          <div className="queue-bounding">
+            <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
+          </div>
         </div>
         <YouTube 
           className="player"

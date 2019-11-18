@@ -189,11 +189,15 @@ export class SearchPage extends Component {
                 </div>
                 <div className="queue-container2">
                     <p className = "queuePrompt">Current Queue</p>
-                    <Songs songs={this.state.songs}/>
+                    <div className="queue-bounding">
+                        <Songs songs={this.state.songs}/>
+                    </div>
                 </div>
                 <div className="song-container2">
                     <p className = "songPrompt">Search Results</p>
+                    <div className="song-bounding">
                     <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+                    </div>
                 </div>
             <div>
             </div> 
