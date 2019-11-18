@@ -251,7 +251,7 @@ export class Room extends Component {
 
   render() {
     const opts = {
-      height: '600',
+      // height: 600,
       playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 1,
         rel: 0
@@ -277,14 +277,16 @@ export class Room extends Component {
             <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
           </div>
         </div>
-        <YouTube 
-          className="player"
-          videoId={'AjWfY7SnMBI'}
-          opts={opts}
-          onReady={this._onReady.bind(this)}
-          onEnd={this.onEnd.bind(this)}
-          onError={this.onError.bind(this)}
-        />
+        <div className="video-container">
+          <YouTube 
+            className="player"
+            videoId={'AjWfY7SnMBI'}
+            opts={opts}
+            onReady={this._onReady.bind(this)}
+            onEnd={this.onEnd.bind(this)}
+            onError={this.onError.bind(this)}
+          />
+         </div>
         <div className="logo-container">
           {<img src={logo} className="logo-shape"/>}
         </div>
