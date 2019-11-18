@@ -25,7 +25,6 @@ export class Room extends Component {
       .catch(console.log);
   }
   componentDidMount() {
-    localStorage.removeItem('songsInLocalStorage')
     socket = io('http://localhost:8080/communication')
 
     window.addEventListener('beforeunload', this.handleClose);
@@ -86,27 +85,18 @@ export class Room extends Component {
 
       socket.on('add-song-down', data => {
         //Add song to state array
-        
-      if(data.pin == this.state.pin){
           
         this.setState({ songs: [...this.state.songs, data.song] })
         localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-        }
     });
     socket.on('remove-song-down', data =>{
-      if(data.pin == this.state.pin){
         this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
         localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-      }
     
     });
     socket.on('user-request-queue-down', function(data){
-      console.log('user-request-queue-down');
-      console.log(data.pin);
-      
-      socket.emit('host-response-queue-up', {
-                                            songs: JSON.parse(localStorage.getItem('songsInLocalStorage')), 
-                                            pin: localStorage.getItem('pinInLocalStorage')})
+      console.log('user-request-queue-down in host');
+      socket.emit('host-response-queue-up', {pin: localStorage.getItem('pinInLocalStorage')})
     });
   }
 
@@ -161,7 +151,7 @@ export class Room extends Component {
         description: song.description,
         thumbnail: song.thumbnail
       }
-      console.log('SearchPage.js: emmitting to server');
+      console.log('Room.js: emmitting addsong to server');
       socket.emit('add-song-up', {song: newSong, pin: this.state.pin});
       this.setState({ requests: [...this.state.requests.filter(item => item.videoId !== song.videoId)] })
     }

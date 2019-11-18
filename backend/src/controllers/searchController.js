@@ -4,11 +4,12 @@ var bodyParser = require('body-parser')
 var {google} = require('googleapis');
 var youtube = google.youtube({
     version: 'v3',
-   auth: "AIzaSyC2flXo37atInysZLuWt1dFIYGut4MNzeE"
+   auth: "AIzaSyBLbb_a-FY-CzWjM1lP4OJvEjWgywKuubw"
 });
 
 const yehAuth = "AIzaSyC2flXo37atInysZLuWt1dFIYGut4MNzeE"
 const jesseAuth = "AIzaSyA1jby3cRnc690DQ_GbduBCpWLa_ufAgog"
+const jesseAuth2 = "AIzaSyBLbb_a-FY-CzWjM1lP4OJvEjWgywKuubw"
 router.post('/search', function(req,res,next) {
     //const {query} = req.body;
     //const result = "Search Result";
@@ -51,7 +52,7 @@ router.post('/search', function(req,res,next) {
 router.post('/searchinfo', function(req,res,next) {
   //const {query} = req.body;
   //const result = "Search Result";
-  console.log('inside search info');
+  //console.log('inside search info');
   
   var ids = []
 
@@ -69,7 +70,7 @@ router.post('/searchinfo', function(req,res,next) {
         // console.log(data.data.items[0]);
         // console.log(data.data.items[0].snippet.thumbnails.default.url);
         
-        ids = [
+        length = [
               data.data.items[0].contentDetails.duration,
               data.data.items[1].contentDetails.duration,
               data.data.items[2].contentDetails.duration,
@@ -77,7 +78,7 @@ router.post('/searchinfo', function(req,res,next) {
               data.data.items[4].contentDetails.duration
             ]
 
-        console.log(ids);
+        //console.log(length);
         //console.log(data.data.items);
         
         

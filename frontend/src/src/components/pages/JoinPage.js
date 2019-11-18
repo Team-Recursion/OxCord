@@ -62,7 +62,7 @@ export class JoinPage extends Component {
                     <input
                         type="submit"
                         name="title"
-                        placeholder="Search"
+                        value="etcetc"
                         style={buttonStyle}
 
                     />

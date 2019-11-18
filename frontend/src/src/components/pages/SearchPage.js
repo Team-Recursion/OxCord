@@ -13,7 +13,9 @@ export class SearchPage extends Component {
         super();  
         this.state = {
             songs: [],
-            requests: []
+            requests: [],
+            pin: 'defaultPin',
+            currentVid: 'defaultVid'
         }
     }
     componentDidMount() {
@@ -70,23 +72,18 @@ export class SearchPage extends Component {
             
             //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
             
-            
-            if(data.pin === this.state.pin){
                 this.setState({ songs: [...this.state.songs, data.song] })
-                console.log(this.state.songs)
+                //console.log(this.state.songs)
                 //console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
-                console.log('Song state: ' + JSON.stringify(this.state.songs))
+                //console.log('Song state: ' + JSON.stringify(this.state.songs))
                 // localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));   
-            }
         });
         socket.on('remove-song-down', data =>{
-            console.log('request made from user at pin', data.pin);
-            console.log('local pin', this.state.pin);
+            //console.log('request made from user at pin', data.pin);
+            //console.log('local pin', this.state.pin);
     
-            if(data.pin === this.state.pin){
               this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
             //   localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-            }
             
           });
 
@@ -96,27 +93,30 @@ export class SearchPage extends Component {
         socket.on('test', data => {
             alert("test");
           })
-        console.log(this.state);
+        console.log('state for searchpage', this.state);
         
-        //this.fetchSongs()
+        this.fetchSongs()
     };
 
     fetchSongs = () => {
-        console.log('emmitting request for songs');
-        console.log(localStorage.getItem('pinInLocalStorage'));
+        console.log('emmitting request for songs from', localStorage.getItem('pinInLocalStorage'));
+        console.log(this.state.pin);
 
         socket.emit('user-request-queue-up', {pin: localStorage.getItem('pinInLocalStorage')});
 
         socket.on('host-response-queue-down', function(data){
             console.log('song info received');
-            this.setState({songs: data.songs})
+            console.log(data);
+            this.setState({pin: data.pin})
+            console.log(this.state.pin);
+            
             //localStorage.setItem('songsInLocalStorage', JSON.stringify(data.songs))
         });
     }
 
     //Method to add song to host room
     addRequests = (songs) => {
-        console.log('SearchPage.js: adding new songs', songs);
+        //console.log('SearchPage.js: adding new songs', songs);
         this.setState({requests: []})
         songs.map((song) => (
           this.setState({ requests: [...this.state.requests, {
@@ -140,14 +140,14 @@ export class SearchPage extends Component {
             alert('That song is already in the queue!')
         }
         else{
-            console.log(song);
+            //console.log(song);
             const newSong = {
                 videoId: song.videoId,
                 title: song.title,
                 description: song.description,
                 thumbnail: song.thumbnail
             }
-            console.log('SearchPage.js: emmitting to server');
+            //console.log('SearchPage.js: emmitting to server');
             socket.emit('add-song-up', {song: newSong, pin: this.state.pin});
             this.setState({ requests: [...this.state.requests.filter(item => item.videoId !== song.videoId)] });
         }

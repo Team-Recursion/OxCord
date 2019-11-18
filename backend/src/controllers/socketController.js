@@ -44,14 +44,13 @@ module.exports = {
                 socket.join(data.pin);         
             });
             socket.on('user-request-queue-up', function(data) {
-                console.log('user-request-queue-up');
-                console.log(data.pin);
+                console.log('user-request-queue-up from', data.pin);
                 
                 comms.in(`${data.pin}`).emit('user-request-queue-down', data);
             });
 
             socket.on('host-response-queue-up', function(data){
-                console.log('host-response-queue-up');
+                console.log('host-response-queue-up from', data.pin);
                 console.log(data);
                 
                 comms.in(`${data.pin}`).emit('host-response-queue-down', data);
@@ -66,7 +65,7 @@ module.exports = {
             //triggers upon song added in user or host page (adds in all Q's for the room)
             socket.on('add-song-up', function(data) {
                 //Emit down event to room
-                //console.log("add-song-up", data);
+                console.log("add-song-up", data);
                 
                 comms.in(`${data.pin}`).emit('add-song-down', data)
             });
