@@ -69,25 +69,19 @@ export class SearchPage extends Component {
             // console.log(localStorage.getItem('songsInLocalStorage'));
             
             //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
+            this.setState({ songs: [...this.state.songs, data.song] })
+            console.log(this.state.songs)
+            //console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
+            console.log('Song state: ' + JSON.stringify(this.state.songs))
+            // localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));   
             
-            
-            if(data.pin === this.state.pin){
-                this.setState({ songs: [...this.state.songs, data.song] })
-                console.log(this.state.songs)
-                //console.log(JSON.parse(JSON.stringify(localStorage.getItem('songsInLocalStorage'))));
-                console.log('Song state: ' + JSON.stringify(this.state.songs))
-                // localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));   
-            }
         });
         socket.on('remove-song-down', data =>{
             console.log('request made from user at pin', data.pin);
             console.log('local pin', this.state.pin);
     
-            if(data.pin === this.state.pin){
-              this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
-            //   localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-            }
-            
+            this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
+            localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
           });
 
         socket.on('update-queue-down', data => {
@@ -98,7 +92,7 @@ export class SearchPage extends Component {
           })
         console.log(this.state);
         
-        //this.fetchSongs()
+        this.fetchSongs()
     };
 
     fetchSongs = () => {
@@ -107,10 +101,10 @@ export class SearchPage extends Component {
 
         socket.emit('user-request-queue-up', {pin: localStorage.getItem('pinInLocalStorage')});
 
-        socket.on('host-response-queue-down', function(data){
+        socket.on('host-response-queue-down', (data) => {
             console.log('song info received');
             this.setState({songs: data.songs})
-            //localStorage.setItem('songsInLocalStorage', JSON.stringify(data.songs))
+            localStorage.setItem('songsInLocalStorage', JSON.stringify(data.songs))
         });
     }
 
