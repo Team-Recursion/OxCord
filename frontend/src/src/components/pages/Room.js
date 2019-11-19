@@ -21,7 +21,7 @@ export class Room extends Component {
   }
   
   componentDidMount() {
-    socket = io('http://oxcordplayer.com:8080/communication')
+    socket = io('http://localhost:8080/communication')
     window.addEventListener('beforeunload', this.handleClose);
     
     var pin = this.props.history.location.data;
@@ -66,7 +66,7 @@ export class Room extends Component {
     const query = {
       pin: numberPin
     }
-    axios.post("http://oxcordplayer.com:8080/dbController/createRoom", query);
+    axios.post("http://localhost:8080/dbController/createRoom", query);
     localStorage.setItem('pinInLocalStorage', pin);
     //Adding socket event handlers
     socket.on('user-join-down', data => {
@@ -110,7 +110,7 @@ export class Room extends Component {
     const query = {
       data: {pin: numberPin}
     }
-    axios.delete("http://oxcordplayer.com:8080/dbController/deleteRoom", query)
+    axios.delete("http://localhost:8080/dbController/deleteRoom", query)
     .then(data => {
       console.log(data.statusCode);
     });

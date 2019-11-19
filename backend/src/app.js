@@ -2,6 +2,7 @@ var express = require('express'); // Express web server framework
 var bodyParser = require('body-parser');
 var searchControllerRouter = require("./controllers/searchController");
 var dbController = require("./controllers/dbController");
+var path = require('path');
 var cors = require("cors");
 
 var app = express();
@@ -17,7 +18,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // app.use(function(req,res,next) {
 //     res.header('Access-Control-Allow-Credentials', true);
 // });
-
+app.use(express.static(path.join(__dirname, '../../frontend/src/build')));
+app.get('/*', (req,res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/src/build', 'index.html'))
+})
 // parse application/json
 app.use(bodyParser.json())
 app.use("/dbController", dbController);

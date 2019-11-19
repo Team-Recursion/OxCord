@@ -32,7 +32,7 @@ export class JoinPage extends Component {
             params: {pin: this.state.pin}
         }
       
-        let result = await axios.get("http://oxcordplayer.com:8080/dbController/doesRoomExist", query);
+        let result = await axios.get("http://localhost:8080/dbController/doesRoomExist", query);
         let exists = result.data.exists;
 
         console.log(exists);
