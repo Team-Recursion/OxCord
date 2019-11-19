@@ -10,7 +10,7 @@
 }
 
 .header {
-  background-color: grey;
+  background-color: rgb(36, 35, 35);
   color: white;
   position: fixed;
   max-width: 100%;
@@ -18,50 +18,55 @@
   height: 6%;
   top: 0%;
   text-shadow: 0px 0px 2px #131415;
-  border-style: inset;
-  border-color: darkgray;
+  background-color: rgb(36, 35, 35);
 }
 
+.room-info {
+  padding-top: .5%;
+  padding-left: 1%;
+  background-color: rgb(36, 35, 35);
+  color: white;
+  background-color: rgb(36, 35, 35);
+} 
+
 .song-container2 {
-  background-color: grey;
+  background-color: rgb(36, 35, 35);
   width: 30.5%;
   height: 89%;
   bottom: 0;
   left: 50%;
   position: absolute;
-  border-right: inset;
   border-left: inset;
-  border-color: darkgray;
+  border-color: rgb(0, 0, 0);
   overflow: auto;
 }
 
 .queue-container2 {
-  background-color: grey;
+  background-color: rgb(36, 35, 35);
   width: 30.5%;
   height: 89%;
   bottom: 0%;
   right: 50%;
   position: absolute;
   border-right: inset;
-  border-color: darkgray;
+  border-color: rgb(0, 0, 0);
   overflow: auto;
 }
 
-.songPrompt {
+.song-prompt {
+  padding: 5px;
+  text-align: center;
   color: white;
-  position: absolute;
-  left: 35%;
-  height: 4%;
   border-bottom: inset;
-  border-color: darkgray;
+  border-color: rgb(0, 0, 0);
 }
 
-.queuePrompt {
-  position: absolute;
-  left: 35%;
+.queue-prompt {
+  padding: 5px;
+  text-align: center;
   color: white;
   border-bottom: inset;
-  border-color: darkgray;
+  border-color: rgb(0, 0, 0);
 }
 
 .searchBar-container{

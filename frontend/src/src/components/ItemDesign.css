@@ -8,6 +8,8 @@
 }
 
 .thumbnail-container {
+    vertical-align: center;
+    align-items: center;
     position: absolute;
     width: 30%;
     height: 100%;
@@ -15,21 +17,24 @@
 }
 
 .thumbnail {
+    align-content: center;
     position: absolute;
-    top: 12%;
+    top: 15%;
     left: 7%;
+    height: 70%;
+    width: 50%;
 }
 
 .title-container {
     background-color: #f4f4f4;
     position: absolute;
     height: 100%;
-    right: 0%;
+    right: 10%;
     width: 70%;
 }
 
 .addButton {
-    background: #00ff00;
+    background: #008000;
     color: #fff;
     border: none;
     padding: 8px 12px;
@@ -37,7 +42,7 @@
     cursor: pointer;
     position: absolute;
     bottom: 5%;
-    right: 5%;
+    left:104%;
 }
 
 .removeButton {
@@ -49,7 +54,7 @@
     cursor: pointer;
     position: absolute;
     bottom: 5%;
-    right: 5%;
+    left:104%
 }
 
 .title-info {
