@@ -10,7 +10,7 @@
 }
 
 .search-header {
-  background-color: grey;
+  background-color: rgb(39, 43, 48);
   color: white;
   position: fixed;
   max-width: 100%;
@@ -23,7 +23,7 @@
 }
 
 .song-container2 {
-  background-color: grey;
+  background-color: rgb(39, 43, 48);
   width: 30.5%;
   height: 89%;
   bottom: 0;
@@ -36,7 +36,7 @@
 }
 
 .queue-container2 {
-  background-color: grey;
+  background-color: rgb(39, 43, 48);
   width: 30.5%;
   height: 89%;
   bottom: 0%;
