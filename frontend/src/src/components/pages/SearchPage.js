@@ -4,8 +4,22 @@ import io from 'socket.io-client';
 import SearchBar from '../SearchBar';
 import Songs from '../Songs';
 import SongRequests from '../SongRequests';
+import './SearchPage.css';
+import Particles from 'react-particles-js';
 
 var socket = null
+
+const particleOpt = {
+    particles:{
+      number:{
+        value: 150,
+        density: {
+          enable: true,
+          value_area: 800,
+        }
+      }
+    }
+  }
 
 export class SearchPage extends Component {
 
@@ -92,7 +106,9 @@ export class SearchPage extends Component {
 
         socket.on('update-queue-down', data => {
             console.log('update-queue-down hit');
-            this.state.currentVid = this.state.songs[0].title;
+            this.setState({
+                currentVid: this.state.songs[0].title
+            });
             this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
             localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
         });
@@ -101,6 +117,7 @@ export class SearchPage extends Component {
         socket.on('no-current-song-down', data => {
             console.log('no-current-song-down hit');
             this.setState({currentVid: ''});
+            localStorage.setItem('currentVid', '')
         })
         console.log(this.state);
         this.fetchSongs()
@@ -173,13 +190,28 @@ export class SearchPage extends Component {
 
     render() {
         return (
-            <div className='component-container' >
-    <h1>Room #:{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
-                <SearchBar addRequests={this.addRequests}/>
-                <p>Current Queue</p>
-                    <Songs songs={this.state.songs}/>
-                <p>Search Results</p>
-                <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+            <div className ="main-container">
+                <Particles className="particles"
+                    params={particleOpt}
+                />
+                <header className="header">
+                    <h1>Room #{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
+                </header>
+                <div className="searchBar-container">
+                    <SearchBar addRequests={this.addRequests}/>
+                </div>
+                <div className="queue-container2">
+                    <p className = "queuePrompt">Current Queue</p>
+                    <div className="queue-bounding">
+                        <Songs songs={this.state.songs}/>
+                    </div>
+                </div>
+                <div className="song-container2">
+                    <p className = "songPrompt">Search Results</p>
+                    <div className="song-bounding">
+                    <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+                    </div>
+                </div>
             <div>
             </div> 
                 {/* <button onClick={this.handleGo} className='btn-enter' >Enter</button> */}

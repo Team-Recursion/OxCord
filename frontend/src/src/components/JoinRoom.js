@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-import './Room.css';
+import './RoomButton.css';
 
 export class JoinRoom extends Component {
     render() {

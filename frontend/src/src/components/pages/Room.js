@@ -5,123 +5,92 @@ import YouTube from 'react-youtube';
 import io from 'socket.io-client';
 import SongRequests from '../SongRequests';
 import { SlowBuffer } from 'buffer';
-
+import logo from './oxImage.jpg';
 import axios from 'axios';
+import '../Room.css';
 
 var socket = null;
 
 export class Room extends Component {
 
   state = {
-      songs: [
-      ],
+      songs: [],
       pin: '',
       requests: [],
-      flag: false
+      flag: true
   }
-  callAPI() {
-    fetch("http://localhost:8080/testAPI")
-      .then(res => res.text())
-      .then(res => this.setState({apiResponse: res}))
-      .catch(console.log);
-  }
+  
   componentDidMount() {
     socket = io('http://localhost:8080/communication')
-
     window.addEventListener('beforeunload', this.handleClose);
     
-    //this.generatePin();
     var pin = this.props.history.location.data;
-    var songs = []
+    var songs = [];
     console.log('pin from history', pin);
     console.log('pin in local', localStorage.getItem('pinInLocalStorage'));
     var newRoom = false;
 
     if(localStorage.getItem('pinInLocalStorage') == undefined){
       console.log('pin set to history');
-      pin = this.props.history.location.data;
-      
-      // if(pin == undefined) {
-      //   this.props.history.push({
-      //     pathname: '/'
-      //   }); 
-      // }
-      
+      pin = this.props.history.location.data;      
     } else {   
       if(pin == undefined){
         console.log('pin undefined and set to local value');
         pin = localStorage.getItem('pinInLocalStorage')
+        newRoom = false;
       } else {
         newRoom = true
         console.log('local not null and pin not undefined so set to pin');
       }
     }
 
-    
+    if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
+      console.log('songs set to local');
+      songs = JSON.parse(localStorage.getItem('songsInLocalStorage'))
+    } else {
+      console.log('songs set to nothing');
+      localStorage.removeItem('songsInLocalStorage');
+      songs = []
+      //localStorage.setItem('songsInLocalStorage', JSON.stringify(songs))
+    }
+     
+    socket.emit('host-join-up', { pin: pin });
 
-    //console.log(JSON.parse(localStorage.getItem('songsInLocalStorage')));
+    this.setState({ 
+      pin: pin,
+      songs: songs,
+      currentVid: ''
+    });
 
-      if(JSON.parse(localStorage.getItem('songsInLocalStorage')) != null && !newRoom){
-          console.log('songs set to local');
-          songs = JSON.parse(localStorage.getItem('songsInLocalStorage'))
-      }
-      else{
-          console.log('songs set to nothing');
-          localStorage.removeItem('songsInLocalStorage');
-          songs = []
-          //localStorage.setItem('songsInLocalStorage', JSON.stringify(songs))
-      }
-      socket.emit('host-join-up', { pin: pin });
+    var numberPin = parseInt(pin,10);
+    const query = {
+      pin: numberPin
+    }
+    axios.post("http://localhost:8080/dbController/createRoom", query);
+    localStorage.setItem('pinInLocalStorage', pin);
+    //Adding socket event handlers
+    socket.on('user-join-down', data => {
+      //Add 1 to a count of users currently in room
+      //Possibly update db value
+    });
 
-      this.setState({ 
-        pin: pin,
-        songs: songs,
-        currentVid: ''
-      });
-
-      var numberPin = parseInt(pin,10);
-      const query = {
-        pin: numberPin
-      }
-      axios.post("http://localhost:8080/dbController/createRoom", query);
-
-      localStorage.setItem('pinInLocalStorage', pin);
-      //Adding socket event handlers
-      socket.on('user-join-down', data => {
-        //Add 1 to a count of users currently in room
-        //Possibly update db value
-      });
-
-      socket.on('add-song-down', data => {
-        //Add song to state array
-
-        // if(this.state.songs.length){
-        //   this.setState({ songs: [...this.state.songs, data.song] })
-        //   localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-        // }
-        // else{
-        //   this.onEnd()
-        // }
-          this.setState({ songs: [...this.state.songs, data.song] })
-          localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-        });
-
-    socket.on('remove-song-down', data =>{
-        this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== data.videoId)] });
-        localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+    socket.on('add-song-down', data => {
+      //Add song to state array
+      const player = this.state.playerObject;
+      this.setState({ songs: [...this.state.songs, data.song] })
+      localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
+        
     });
 
     socket.on('user-request-queue-down', function(data){
       console.log('user-request-queue-down');
       console.log(data.pin);
 
-      //const currentVid = this.state.currentVid;
-      
-      socket.emit('host-response-queue-up', {
-                                            songs: JSON.parse(localStorage.getItem('songsInLocalStorage')), 
-                                            pin: localStorage.getItem('pinInLocalStorage'),
-                                            currentSong: localStorage.getItem('currentVid')})
-                                            
+      socket.emit('host-response-queue-up', { 
+        songs: JSON.parse(localStorage.getItem('songsInLocalStorage')), 
+        pin: localStorage.getItem('pinInLocalStorage'),
+        currentSong: localStorage.getItem('currentVid')
+      });                                    
     });
   }
 
@@ -183,7 +152,7 @@ export class Room extends Component {
         description: song.description,
         thumbnail: song.thumbnail
       }
-      console.log('Room.js: emmitting addsong to server');
+      console.log('SearchPage.js: emmitting to server');
       socket.emit('add-song-up', {song: newSong, pin: this.state.pin});
       this.setState({ requests: [...this.state.requests.filter(item => item.videoId !== song.videoId)] })
     }
@@ -193,13 +162,26 @@ export class Room extends Component {
     socket.emit('remove-song-up', {videoId: videoId, pin: this.state.pin});
     this.setState({ songs: [...this.state.songs.filter(song => song.videoId !== videoId)] });
     localStorage.setItem('songsInLocalStorage', JSON.stringify(this.state.songs));
-
   }
   
   _onReady(event) {
+    console.log('onReady');
     const player = event.target;
     player.playVideo();
     this.state.playerObject = player;
+
+    if(localStorage.getItem('currentVidId') != null  ) {
+      this.state.flag = false;
+      const reloadId = localStorage.getItem('currentVidId');
+      const videoTitle = localStorage.getItem('currentVid');
+      this.setState({
+        currentVid: videoTitle
+      });
+      player.cueVideoById(reloadId);
+      player.playVideo();
+    } else {
+      console.log("no id in ls");
+    }
   }
 
   updateQueue = (videoId) => {
@@ -213,14 +195,17 @@ export class Room extends Component {
     this.setState({
       currentVid: ""
     });
+    localStorage.setItem('currentVid', '');
+    localStorage.setItem('currentVidId', '');
   }
 
   onEnd(event) {
     console.log('onend');
     const player = event.target;
     if(this.state.songs.length){
-      console.log('onend', this.state.songs[0].videoId);
+      this.setState({currentVid: this.state.songs[0].title});
       localStorage.setItem('currentVid', this.state.songs[0].title);
+      localStorage.setItem('currentVidId', this.state.songs[0].videoId)
       player.cueVideoById(this.state.songs[0].videoId);
       this.updateQueue(this.state.songs[0].videoId);
       player.playVideo();
@@ -230,48 +215,72 @@ export class Room extends Component {
     }
   }
 
-  // checkIfRoomExists() {
-  //   var numberPin = 
-  //   const query = {
-  //     data: {pin: this.state.pin}
-  //   }
+  onError(event) {
+    this.state.flag = true;
+    console.log('onError');
+    const player = event.target;
 
-  //   axios.get("http://localhost:8080/dbController/doesRoomExist", query)
-  //     .then(res => {
-  //       const exists = res.data.exists;
-  //       if(exists){
-  //         return true;
-  //       }
-  //       return false;
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       return false;
-  //     })
-  // }
+    console.log(localStorage.getItem('currentVidId'));
+    
+    if(localStorage.getItem('currentVidId') !== null && localStorage.getItem('currentVidId') !== '' ) {
+      this.state.flag = false;
+      const reloadId = localStorage.getItem('currentVidId');
+      const videoTitle = localStorage.getItem('currentVid');
+      this.setState({
+        currentVid: videoTitle
+      });
+      player.cueVideoById(reloadId);
+      player.playVideo();
+    } else {
+      console.log("Error hit and no videoID from previous session, load default video");
+      this.state.flag = true;
+      player.cueVideoById('AjWfY7SnMBI');
+      player.playVideo();
+    }
+    player.playVideo();
+  }
 
   render() {
     const opts = {
-      height: '500',
-      width: '600',
+      // height: 600,
       playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
+        autoplay: 1,
+        rel: 0
       }
     };
     return (
-      <div>
-        <h1>Room #:{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
+      <div className="main-container">
+        <header className="header">
+          <h1>Room #{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
+        </header>
+        <div className="searchBar-container">
           <SearchBar addRequests={this.addRequests}/>
-          <p>Current Queue</p>
-          <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
-          <p>Song Requests</p>
-          <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+        </div>
+        <div className = "song-container">
+          <p className = "songPrompt">Search Results</p>
+          <div className="song-bounding">
+            <SongRequests requests={this.state.requests} addSong={this.addSong}/>
+          </div>
+        </div>
+        <div className="queue-container">
+          <p className = "queuePrompt">Current Queue</p>
+          <div className="queue-bounding">
+            <HostSongs songs={this.state.songs} deleteSong={this.deleteSong}/>
+          </div>
+        </div>
+        <div className="video-container">
           <YouTube 
+            className="player"
             videoId={'AjWfY7SnMBI'}
             opts={opts}
             onReady={this._onReady.bind(this)}
             onEnd={this.onEnd.bind(this)}
+            onError={this.onError.bind(this)}
           />
+         </div>
+        <div className="logo-container">
+          {<img src={logo} className="logo-shape"/>}
+        </div>
       </div>
     );
   }

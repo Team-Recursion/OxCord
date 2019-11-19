@@ -1,5 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './JoinPage.css';
+import '../RoomButton.css';
+import Particles from 'react-particles-js';
+
+const particleOpt = {
+    particles:{
+      number:{
+        value: 150,
+        density: {
+          enable: true,
+          value_area: 800,
+        }
+      }
+    }
+  }
 
 export class JoinPage extends Component {
 
@@ -50,35 +65,34 @@ export class JoinPage extends Component {
     render() {
         return (
             <div className='component-container' >
-                <form onSubmit={this.routeChange} style={{width: '800px', margin: '0 auto'}}>
-                    <input
-                        type="number"
-                        name="textBox"
-                        style={{ flex: '10', padding: '5px' }}
-                        placeholder="Enter Room Number"
-                        value={this.state.pin}
-                        onChange={this.handleChange}
-                    />
-                    <input
-                        type="submit"
-                        name="title"
-                        value="etcetc"
-                        style={buttonStyle}
-
-                    />
-                </form>
+                <Particles className="particles"
+              params={particleOpt}
+                />
+                <header className='component-header'>
+                    <form className='text-container'onSubmit={this.routeChange}>
+                        <h1>Enter a Room Number:</h1>
+                        <input
+                            className="inputBox"
+                            type="text"
+                            name="textBox"
+                            style={{padding: '5px' }}
+                            placeholder="####"
+                            value={this.state.pin}
+                            onChange={this.handleChange}
+                        />
+                        <div class="divider"/>
+                        <input
+                            className="button"
+                            type="submit"
+                            name="title"
+                            value= "Join!"
+                            placeholder="Search"
+                        />
+                    </form>
+                </header>
             </div>
         )
     }
-}
-
-const buttonStyle = {
-    display: 'inline-block',
-    borderColor: '#555',
-    background: '#555',
-    color: '#fff',
-    paadding: '7px 20px',
-    cursor: 'pointer'
 }
 
 export default JoinPage;

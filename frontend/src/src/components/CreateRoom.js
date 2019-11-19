@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import axios from 'axios';
-import './Room.css';
+import './RoomButton.css';
 
 export class CreateRoom extends Component {
 
@@ -10,7 +10,7 @@ export class CreateRoom extends Component {
             <div>
               <Route render={({ history}) => (
                 <button
-                  type='button'
+                  // type='button'
                   className='button'
                   style={buttonStyle}
                   onClick={() => { 
@@ -22,6 +22,7 @@ export class CreateRoom extends Component {
                       pin: newPin
                     }
                     axios.post("http://localhost:8080/dbController/createRoom", query);
+                    localStorage.clear();
           
                     let path = '/room';
                     history.push({
