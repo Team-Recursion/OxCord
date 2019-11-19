@@ -4,7 +4,7 @@ var bodyParser = require('body-parser')
 var {google} = require('googleapis');
 var youtube = google.youtube({
     version: 'v3',
-   auth: "AIzaSyB9kVxbAGJf9R3n2mWPWk6wzrXvEc2lmyI"
+   auth: "AIzaSyA1jby3cRnc690DQ_GbduBCpWLa_ufAgog"
 });
 
 const yehAuth = "AIzaSyC2flXo37atInysZLuWt1dFIYGut4MNzeE"

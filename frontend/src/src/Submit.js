@@ -11,7 +11,7 @@ class Submit extends Component {
   }
 
   callAPI() {
-    fetch("http://localhost:8888/testAPI/submit", {
+    fetch("http://oxcordplayer.com:8888/testAPI/submit", {
       method: 'POST',
       body: this.state.value
     }
