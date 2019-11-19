@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.068eb7fe.chunk.css",
+    "main.js": "/static/js/main.3caad8ed.chunk.js",
+    "main.js.map": "/static/js/main.3caad8ed.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.b8622711.js",
+    "runtime-main.js.map": "/static/js/runtime-main.b8622711.js.map",
+    "static/js/2.b0013edd.chunk.js": "/static/js/2.b0013edd.chunk.js",
+    "static/js/2.b0013edd.chunk.js.map": "/static/js/2.b0013edd.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.2cf6c82e830735a0cf7a844acbe5e3b5.js": "/precache-manifest.2cf6c82e830735a0cf7a844acbe5e3b5.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.068eb7fe.chunk.css.map": "/static/css/main.068eb7fe.chunk.css.map",
+    "static/media/OxCordLogoFinal.png": "/static/media/OxCordLogoFinal.7b790bb6.png",
+    "static/media/oxImage.jpg": "/static/media/oxImage.4800ea1d.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b8622711.js",
+    "static/js/2.b0013edd.chunk.js",
+    "static/css/main.068eb7fe.chunk.css",
+    "static/js/main.3caad8ed.chunk.js"
+  ]
+}

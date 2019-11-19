@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var searchControllerRouter = require("./controllers/searchController");
 var dbController = require("./controllers/dbController");
 var cors = require("cors");
+const path = require("path");
 
 var app = express();
 var http = require('http').createServer(app);
@@ -22,6 +23,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use("/dbController", dbController);
 app.use("/searchController", searchControllerRouter);
+
+app.use(express.static('client/build'));
+app.get('/*', (req, res) => {
+res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+});
+
 
 socketController.startCommunication(io);
 
