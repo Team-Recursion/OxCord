@@ -9,7 +9,7 @@
   background: radial-gradient(circle, rgba(132,93,161,1) 0%, rgba(20,25,32,1) 85%);
 }
 
-.header {
+.search-header {
   background-color: grey;
   color: white;
   position: fixed;
