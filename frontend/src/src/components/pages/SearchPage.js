@@ -188,7 +188,7 @@ export class SearchPage extends Component {
                 <Particles className="particles"
                     params={particleOpt}
                 />
-                <div className="header">
+                <div className="search-header">
                     <div className="room-info">
                         Room#: {this.state.pin} <br/> Currently Playing: {this.state.currentVid}
                     </div>
@@ -198,13 +198,13 @@ export class SearchPage extends Component {
                 </div>
                 <div className="queue-container2">
                     <div className = "queue-prompt">Current Queue</div>
-                    <div className="queue-bounding">
+                    <div className="queue-bounding2">
                         <Songs songs={this.state.songs}/>
                     </div>
                 </div>
                 <div className="song-container2">
                     <div className = "song-prompt">Search Results</div>
-                    <div className="song-bounding">
+                    <div className="song-bounding2">
                     <SongRequests requests={this.state.requests} addSong={this.addSong}/>
                     </div>
                 </div>

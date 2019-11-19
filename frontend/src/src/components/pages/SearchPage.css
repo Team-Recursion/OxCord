@@ -12,6 +12,7 @@
 .search-header {
   background-color: rgb(39, 43, 48);
   color: white;
+  position: absolute;
   position: fixed;
   max-width: 100%;
   width: 100%;
@@ -33,7 +34,6 @@
   border-right: inset;
   border-left: inset;
   border-color: darkgray;
-  overflow: auto;
 }
 
 .queue-container2 {
@@ -45,14 +45,12 @@
   position: absolute;
   border-right: inset;
   border-color: darkgray;
-  overflow: auto;
 }
 
 .songPrompt {
   color: white;
   position: absolute;
   left: 35%;
-  height: 4%;
   border-bottom: inset;
   border-color: darkgray;
 }
@@ -75,4 +73,20 @@
 .particles {
     height: 100%;
     width: 100%;
+  }
+
+  .song-bounding2 {
+    position: absolute;
+    bottom: 0%;
+    height: 96%;
+    width: 100%;
+    overflow: auto;
+  }
+  
+  .queue-bounding2 {
+    position: absolute;
+    bottom: 0%;
+    height: 96%;
+    width: 100%;
+    overflow: auto;
   }
