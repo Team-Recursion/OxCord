@@ -18,14 +18,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // app.use(function(req,res,next) {
 //     res.header('Access-Control-Allow-Credentials', true);
 // });
-app.use(express.static(path.join(__dirname, '../../frontend/src/build')));
-app.get('/*', (req,res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/src/build', 'index.html'))
-})
 // parse application/json
 app.use(bodyParser.json())
 app.use("/dbController", dbController);
 app.use("/searchController", searchControllerRouter);
+
+app.use(express.static(path.join(__dirname, '../../frontend/src/build')));
+app.get('/*', (req,res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/src/build', 'index.html'))
+})
 
 socketController.startCommunication(io);
 
