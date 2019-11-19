@@ -188,7 +188,7 @@ export class SearchPage extends Component {
                 <Particles className="particles"
                     params={particleOpt}
                 />
-                <header className="header">
+                <header className="search-header">
                     <h1>Room #{this.state.pin} Currently Playing: {this.state.currentVid}</h1>
                 </header>
                 <div className="searchBar-container">
