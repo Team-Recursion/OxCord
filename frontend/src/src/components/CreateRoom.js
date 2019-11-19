@@ -21,7 +21,7 @@ export class CreateRoom extends Component {
                     const query = {
                       pin: newPin
                     }
-                    axios.post("http://52.9.144.159:8080/dbController/createRoom", query);
+                    axios.post("52.9.144.159:8080/dbController/createRoom", query);
                     localStorage.clear();
           
                     let path = '/room';

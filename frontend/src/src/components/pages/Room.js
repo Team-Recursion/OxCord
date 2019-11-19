@@ -21,7 +21,7 @@ export class Room extends Component {
   }
   
   componentDidMount() {
-    socket = io('http://52.9.144.159:8080/communication')
+    socket = io('52.9.144.159:8080/communication')
     window.addEventListener('beforeunload', this.handleClose);
     
     var pin = this.props.history.location.data;

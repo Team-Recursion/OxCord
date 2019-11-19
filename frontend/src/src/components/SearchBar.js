@@ -77,7 +77,7 @@ export class SearchBar extends Component {
         })
         console.log(info);
 
-    axios.post('http://52.9.144.159:8080/searchController/searchinfo', 'E2y2ey2oPAk')
+    axios.post('52.9.144.159:8080/searchController/searchinfo', 'E2y2ey2oPAk')
     .then((res) => {
     //console.log('SeachBar.js: responde from yt', data);
     // this.props.addRequests(data)
