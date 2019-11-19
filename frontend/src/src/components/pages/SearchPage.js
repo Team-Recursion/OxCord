@@ -31,7 +31,7 @@ export class SearchPage extends Component {
         }
     }
     componentDidMount() {
-        socket = io('172.31.8.152:8080/communication')
+        socket = io('http://oxcordplayer.com/communication')
         var pin = this.props.history.location.data;
         
         var newRoom = false;

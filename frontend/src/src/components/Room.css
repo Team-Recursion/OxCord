@@ -47,7 +47,7 @@
   border-color: darkgray;
 }
 
-.songPrompt {
+.song-prompt {
   color: white;
   position: absolute;
   left: 35%;
@@ -55,7 +55,7 @@
   border-color: darkgray;
 }
 
-.queuePrompt {
+.queue-prompt {
   position: absolute;
   left: 35%;
   color: white;

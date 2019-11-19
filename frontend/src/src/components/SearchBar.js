@@ -54,7 +54,7 @@ export class SearchBar extends Component {
       };
 
 
-    axios.post('http://172.31.8.152:8080/searchController/search', query)
+    axios.post('http://oxcordplayer.com/searchController/search', query)
     .then((data) => {
         //console.log('SeachBar.js: responde from yt', data);
 
@@ -77,7 +77,7 @@ export class SearchBar extends Component {
         })
         console.log(info);
 
-    axios.post('172.31.8.152:8080/searchController/searchinfo', 'E2y2ey2oPAk')
+    axios.post('http://oxcordplayer.com/searchController/searchinfo', 'E2y2ey2oPAk')
     .then((res) => {
     //console.log('SeachBar.js: responde from yt', data);
     // this.props.addRequests(data)

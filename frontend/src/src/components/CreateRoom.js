@@ -21,7 +21,7 @@ export class CreateRoom extends Component {
                     const query = {
                       pin: newPin
                     }
-                    axios.post("172.31.8.152:8080/dbController/createRoom", query);
+                    axios.post("http://oxcordplayer.com/dbController/createRoom", query);
                     localStorage.clear();
           
                     let path = '/room';
