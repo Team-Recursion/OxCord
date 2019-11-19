@@ -31,7 +31,7 @@ export class SearchPage extends Component {
         }
     }
     componentDidMount() {
-        socket = io('http://172.31.8.152:8080/communication')
+        socket = io('http://52.9.144.159:8080/communication')
         var pin = this.props.history.location.data;
         
         var newRoom = false;
