@@ -32,7 +32,7 @@ export class JoinPage extends Component {
             params: {pin: this.state.pin}
         }
       
-        let result = await axios.get("http://localhost:8080/dbController/doesRoomExist", query);
+        let result = await axios.get("http://172.31.8.152:8080/dbController/doesRoomExist", query);
         let exists = result.data.exists;
 
         console.log(exists);
