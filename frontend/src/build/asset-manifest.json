@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.b10e760c.chunk.css",
-    "main.js": "/static/js/main.f244ef6a.chunk.js",
-    "main.js.map": "/static/js/main.f244ef6a.chunk.js.map",
+    "main.css": "/static/css/main.98544cb1.chunk.css",
+    "main.js": "/static/js/main.b9614789.chunk.js",
+    "main.js.map": "/static/js/main.b9614789.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.b8622711.js",
     "runtime-main.js.map": "/static/js/runtime-main.b8622711.js.map",
     "static/js/2.fc16519b.chunk.js": "/static/js/2.fc16519b.chunk.js",
     "static/js/2.fc16519b.chunk.js.map": "/static/js/2.fc16519b.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.2a75f3af31e93cebbb9dafae5cad791c.js": "/precache-manifest.2a75f3af31e93cebbb9dafae5cad791c.js",
+    "precache-manifest.b5c2489f3be88f764d7ba3d416fd481d.js": "/precache-manifest.b5c2489f3be88f764d7ba3d416fd481d.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.b10e760c.chunk.css.map": "/static/css/main.b10e760c.chunk.css.map",
+    "static/css/main.98544cb1.chunk.css.map": "/static/css/main.98544cb1.chunk.css.map",
     "static/media/OxCordLogoFinal.png": "/static/media/OxCordLogoFinal.7b790bb6.png",
     "static/media/oxImage.jpg": "/static/media/oxImage.4800ea1d.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.b8622711.js",
     "static/js/2.fc16519b.chunk.js",
-    "static/css/main.b10e760c.chunk.css",
-    "static/js/main.f244ef6a.chunk.js"
+    "static/css/main.98544cb1.chunk.css",
+    "static/js/main.b9614789.chunk.js"
   ]
 }
