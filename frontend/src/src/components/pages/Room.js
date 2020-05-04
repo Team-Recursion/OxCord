@@ -254,7 +254,8 @@ export class Room extends Component {
       // height: 600,
       playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 1,
-        rel: 0
+        rel: 0,
+        showInfo: 0
       }
     };
     return (

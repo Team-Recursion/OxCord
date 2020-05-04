@@ -31,10 +31,10 @@
 
 .song-container2 {
   background-color: rgb(36, 35, 35);
-  width: 30.5%;
-  height: 89%;
-  bottom: 0;
-  left: 50%;
+  width: 25%;
+  height: 70%;
+  bottom: 9%;
+  left: 51%;
   position: absolute;
   border-left: inset;
   border-color: rgb(0, 0, 0);
@@ -43,10 +43,10 @@
 
 .queue-container2 {
   background-color: rgb(36, 35, 35);
-  width: 30.5%;
-  height: 89%;
-  bottom: 0%;
-  right: 50%;
+  width: 25%;
+  height: 70%;
+  bottom: 9%;
+  right: 51%;
   position: absolute;
   border-right: inset;
   border-color: rgb(0, 0, 0);
